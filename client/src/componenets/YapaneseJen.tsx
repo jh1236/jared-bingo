@@ -1,14 +1,16 @@
 'use client'
 
-import React from "react";
+import React, {useEffect} from "react";
 
 const defaultValue = 'Write something here!';
 
 import classes from "./button.module.css";
+import {getYapaneseJenForName} from "@/componenets/ServerActions";
 
 export function YapaneseJen() {
     const name = localStorage.getItem("name");
     const ref = React.useRef<HTMLInputElement | null>(null);
+    const [yappaneseJen, setYappaneseJen] = React.useState<number>(0);
     if (name === null) {
         return <div style={{
             alignItems: "center",
@@ -32,6 +34,9 @@ export function YapaneseJen() {
             </button>
         </div>;
     }
+    useEffect(() => {
+        getYapaneseJenForName(name).then(setYappaneseJen)
+    })
     return <div style={{
         alignItems: "center",
         width: '100%',
@@ -39,7 +44,7 @@ export function YapaneseJen() {
     }}>
         <br></br>
         <br></br>
-        <p>My name is {name}</p>
+        <p>My name is {name}. I have {yappaneseJen} Yappanese Jen!</p>
         <br></br>
         <br></br>
         <button
@@ -47,6 +52,7 @@ export function YapaneseJen() {
             onClick={
                 () => {
                     localStorage.removeItem('name');
+                    location.reload();
                 }
             }
         >clear
