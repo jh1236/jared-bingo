@@ -10,12 +10,12 @@ interface BingoType {
 
 
 export function BingoSquare({index, setState, state, text, isTask}: BingoType) {
-    const coolAsf = index === 12;
-    const clicked = coolAsf || state[index];
+    const isCentreSquare = index === 12;
+    const clicked = isCentreSquare || state[index];
     return <div style={{
         width: "20%",
         height: "150px",
-        backgroundColor: coolAsf ? 'cyan' : !clicked ? (isTask ? "gold" : 'white') : "grey",
+        backgroundColor: isCentreSquare ? 'cyan' : !clicked ? (isTask ? "gold" : 'white') : "grey",
         color: 'black',
         textAlign: "center",
         overflow: 'hidden',
@@ -27,9 +27,9 @@ export function BingoSquare({index, setState, state, text, isTask}: BingoType) {
     }}
                 onClick={() => {
                     const s = state.slice();
-                    s[index] = !s[index] || coolAsf;
+                    s[index] = !s[index] || isCentreSquare;
                     setState(s);
                 }}>
-        {coolAsf ? 'Free Space!!' : text}
+        {isCentreSquare ? 'Free Space!!' : text}
     </div>;
 }

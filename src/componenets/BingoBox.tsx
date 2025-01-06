@@ -18,7 +18,6 @@ function winCheck(state: boolean[]): boolean {
         let passedHorizontal = true;
         let passedVertical = true;
         for (let j = 0; j < 5; j++) {
-            //vertical check
             passedHorizontal &&= state[i * 5 + j]
             passedVertical &&= state[i + j * 5]
         }
