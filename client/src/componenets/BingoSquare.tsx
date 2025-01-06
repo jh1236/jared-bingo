@@ -1,4 +1,5 @@
 import React from "react";
+import {ReactFitty} from "react-fitty";
 
 interface BingoType {
     index: number,
@@ -14,7 +15,8 @@ export function BingoSquare({index, setState, state, text, isTask}: BingoType) {
     const clicked = isCentreSquare || state[index];
     return <div style={{
         width: "20%",
-        height: "150px",
+        minHeight: "20vmin",
+        maxHeight: "20vmin",
         backgroundColor: isCentreSquare ? 'cyan' : !clicked ? (isTask ? "gold" : 'white') : "grey",
         color: 'black',
         textAlign: "center",
@@ -30,6 +32,6 @@ export function BingoSquare({index, setState, state, text, isTask}: BingoType) {
                     s[index] = !s[index] || isCentreSquare;
                     setState(s);
                 }}>
-        {isCentreSquare ? 'Free Space!!' : text}
+        <ReactFitty wrapText>{'   '}{isCentreSquare ? 'Free Space!!' : text}{'   '}</ReactFitty>
     </div>;
 }
