@@ -15,11 +15,16 @@ export default function Shop() {
     })
 
     function purchase(cost: number) {
-        if (cost <= yappaneseJen) {
-            addYapaneseJenForName(name!, cost * -1).then((newAmount) => setYappaneseJen(newAmount));
-        } else {
-            alert('broke fuck')
-        }
+        if (!name) alert('Login first!!');
+        getYapaneseJenForName(name!).then((trueBalance) => {
+            setYappaneseJen(trueBalance)
+            if (cost <= trueBalance) {
+                addYapaneseJenForName(name!, cost * -1).then((newAmount) => setYappaneseJen(newAmount));
+            } else {
+                alert('broke fuck')
+            }
+        })
+
     }
 
     return (

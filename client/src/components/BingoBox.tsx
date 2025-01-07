@@ -100,7 +100,7 @@ function generateNewBingo(setSeed: (state: number) => void,
 
 export function BingoBox({}: BingoBoxProps) {
     const [yapaneseJen, setYapaneseJen] = React.useState<number>(0);
-    let [isOpen, setIsOpen] = React.useState(false)
+    const [isOpen, setIsOpen] = React.useState(false)
     const init = Array(25).fill(false)
     init[12] = true
     const [state, setState] = React.useState<boolean[]>(init);
@@ -129,8 +129,8 @@ export function BingoBox({}: BingoBoxProps) {
     useEffect(() => {
         if (winCheck(state)) {
             setIsOpen(true);
-            addYapaneseJenForName(name!, 1).then(() => {
-                setYapaneseJen(yapaneseJen + 1)
+            addYapaneseJenForName(name!, 1).then((newAmount) => {
+                setYapaneseJen(newAmount)
             });
             const newSeed = Math.random() * 123456789
             setSeed(newSeed)
