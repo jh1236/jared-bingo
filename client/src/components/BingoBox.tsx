@@ -129,8 +129,8 @@ export function BingoBox({}: BingoBoxProps) {
     useEffect(() => {
         if (winCheck(state)) {
             setIsOpen(true);
-            addYapaneseJenForName(name!, 1).then(() => {
-                setYapaneseJen(yapaneseJen + 1)
+            addYapaneseJenForName(name!, 1).then((newAmount) => {
+                setYapaneseJen(newAmount)
             });
             const newSeed = Math.random() * 123456789
             setSeed(newSeed)
