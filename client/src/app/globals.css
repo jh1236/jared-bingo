@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  color: #ededed;
-  background: #242424;
-  font-family: "Comic Sans MS", Papyrus, sans-serif;
+    color: #ededed;
+    background: #242424;
+    font-family: Papyrus, "Comic Sans MS", sans-serif;
 }

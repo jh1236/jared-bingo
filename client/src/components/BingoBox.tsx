@@ -6,6 +6,7 @@ import data from '../resources/squares.json'
 import dictionary from '../resources/dictionary_keys.json'
 import {addYapaneseJenForName, getBoardForName, setBoardForName, setStateForName} from "@/components/ServerActions";
 import {YapaneseJen} from "@/components/YapaneseJen";
+import {WinPopUp} from "@/components/WinPopUp";
 
 function fakeRandom(seed: number) {
     //used so that we can have a seeded rng
@@ -99,6 +100,7 @@ function generateNewBingo(setSeed: (state: number) => void,
 
 export function BingoBox({}: BingoBoxProps) {
     const [yapaneseJen, setYapaneseJen] = React.useState<number>(0);
+    let [isOpen, setIsOpen] = React.useState(false)
     const init = Array(25).fill(false)
     init[12] = true
     const [state, setState] = React.useState<boolean[]>(init);
@@ -126,7 +128,7 @@ export function BingoBox({}: BingoBoxProps) {
     }, []);
     useEffect(() => {
         if (winCheck(state)) {
-            alert("YIPE!!")
+            setIsOpen(true);
             addYapaneseJenForName(name!, 1).then(() => {
                 setYapaneseJen(yapaneseJen + 1)
             });
@@ -150,5 +152,6 @@ export function BingoBox({}: BingoBoxProps) {
         <div style={{height: "20%"}}>
             <YapaneseJen yapaneseJen={yapaneseJen} setYapaneseJen={setYapaneseJen} regenBoard={() => generateNewBingo(setSeed, setState, setText, setIsTask)}></YapaneseJen>
         </div>
+        <WinPopUp isOpen={isOpen} setIsOpen={setIsOpen}></WinPopUp>
     </>;
 }

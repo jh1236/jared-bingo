@@ -1,7 +1,47 @@
 {
     "jared": {
-        "score": 11,
-        "board": 55020987.67138431,
+        "score": 15,
+        "board": 83362718.76243822,
+        "state": 4096
+    },
+    "sammy girl": {
+        "score": 9,
+        "board": 108038139.25522037,
+        "state": 4096
+    },
+    "asd": {
+        "score": 0,
+        "board": 96479102.79551907,
+        "state": 11264
+    },
+    "asdasc": {
+        "score": 1,
+        "board": 72014203.60660058,
+        "state": 4096
+    },
+    "saxvcs": {
+        "score": 1,
+        "board": 29907702.57435656,
+        "state": 4096
+    },
+    "meth": {
+        "score": 0,
+        "board": 56235465.155688,
+        "state": null
+    },
+    "": {
+        "score": 0,
+        "board": 85203170.03148246,
+        "state": null
+    },
+    "asf": {
+        "score": 8,
+        "board": 99466458.38850544,
+        "state": 4096
+    },
+    "good boy": {
+        "score": 1,
+        "board": 120731364.97042954,
         "state": 4096
     }
 }
