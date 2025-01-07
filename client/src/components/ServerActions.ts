@@ -26,13 +26,15 @@ export function getYapaneseJenForName(name: string): Promise<number> {
     })
 }
 
-export function addYapaneseJenForName(name: string, score: number): Promise<Response> {
+export function addYapaneseJenForName(name: string, score: number): Promise<number> {
     return fetch(`${site}/score`, {
         method: "POST",
         body: JSON.stringify({name: name, score: score}),
         headers: {
             "Content-Type": "application/json",
         },
+    }).then((response: Response) => response.json()).then((data: any) => {
+        return data.score;
     });
 }
 

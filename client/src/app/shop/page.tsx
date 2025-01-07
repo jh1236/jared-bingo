@@ -13,8 +13,8 @@ export default function Shop() {
     })
 
     function purchase(cost: number) {
-        if (cost < yappaneseJen) {
-            addYapaneseJenForName(name!,cost*-1).then(() => location.reload());
+        if (cost <= yappaneseJen) {
+            addYapaneseJenForName(name!,cost*-1).then((newAmount) => setYappaneseJen(newAmount));
         } else {
             alert('broke fuck')
         }
