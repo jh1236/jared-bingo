@@ -28,7 +28,7 @@ export default function Shop() {
             </h1>
             <button onClick={() => purchase(3)}>Buy Le Thing - 3 moneys</button>
             <p />
-            <button onClick={() => addYapaneseJenForName(name!, 5).then(() => location.reload())}>Get Mulah</button>
+            <button onClick={() => addYapaneseJenForName(name!, 5).then((newAmount) => setYappaneseJen(newAmount))}>Get Mulah</button>
         </div>
     );
 }
