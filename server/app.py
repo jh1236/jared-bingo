@@ -25,7 +25,7 @@ def add_to_score():
     score = request.json['score']
     database[name]["score"] += score
     with open(f"./resources/{FILENAME}", 'w+') as f:
-        json.dump(database, f)
+        json.dump(database, f, indent=4)
     return {"score": database[name]["score"]}, 200
 
 
@@ -42,7 +42,7 @@ def set_board():
     board = request.json['board']
     database[name]["board"] = board
     with open(f"./resources/{FILENAME}", 'w+') as f:
-        json.dump(database, f)
+        json.dump(database, f, indent=4)
     return {"board": database[name]["board"], "state": database[name]["state"]}, 200
 
 @app.post('/api/state')
@@ -51,7 +51,7 @@ def set_state():
     state = request.json['state']
     database[name]["state"] = state
     with open(f"./resources/{FILENAME}", 'w+') as f:
-        json.dump(database, f)
+        json.dump(database, f, indent=4)
     return {"board": database[name]["board"], "state": database[name]["state"]}, 200
 
 

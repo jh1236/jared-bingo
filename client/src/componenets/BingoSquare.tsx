@@ -1,5 +1,6 @@
 import React from "react";
 import {ReactFitty} from "react-fitty";
+import {setStateForName} from "@/componenets/ServerActions";
 
 interface BingoType {
     index: number,
@@ -29,9 +30,11 @@ export function BingoSquare({index, setState, state, text, isTask}: BingoType) {
         textWrap: 'wrap'
     }}
                 onClick={() => {
+                    if (name === null || isCentreSquare) return;
                     const s = state.slice();
-                    s[index] = !(s[index] || name === null) || isCentreSquare;
+                    s[index] = !s[index];
                     setState(s);
+                    setStateForName(name, s)
                 }}>
         <ReactFitty wrapText>{'   '}{isCentreSquare ? 'Free Space!!' : text}{'   '}</ReactFitty>
     </div>;

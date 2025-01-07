@@ -51,11 +51,11 @@ function generateSquares(state: boolean[], setState: (state: boolean[]) => void,
 }
 
 function generateBingo(seed: number,
-                       text: string[],
                        setText: (state: string[]) => void,
-                       isTask: boolean[],
                        setIsTask: (isTask: boolean[]) => void
 ) {
+    const text = Array(25).fill("")
+    const isTask = Array(25).fill(false)
     const tempOptions = options.slice()
     let taskStart = data.basic.length;
     for (let i = 0; i < 25; i++) {
@@ -72,8 +72,6 @@ function generateBingo(seed: number,
         tempOptions.splice(idx, 1)
         isTask[i] = isTaskIn
         text[i] = tempText
-
-
     }
     setText(text)
     setIsTask(isTask)
@@ -93,12 +91,12 @@ export function BingoBox() {
             getBoardForName(name).then((b) => {
                 if (b.board) {
                     setSeed(b.board)
-                    generateBingo(b.board, text, setText, isTask, setIsTask);
+                    generateBingo(b.board, setText, setIsTask);
                 } else if (seed === 0) {
                     const newSeed = Math.random() * 123456789
                     setSeed(newSeed)
                     setBoardForName(name!, newSeed)
-                    generateBingo(newSeed, text, setText, isTask, setIsTask);
+                    generateBingo(newSeed, setText, setIsTask);
                 }
                 if (b.state) setState(b.state);
             })
@@ -111,16 +109,15 @@ export function BingoBox() {
             const newSeed = Math.random() * 123456789
             setSeed(newSeed)
             setBoardForName(name!, newSeed)
-            generateBingo(newSeed, text, setText, isTask, setIsTask);
+            generateBingo(newSeed, setText, setIsTask);
             setState(init)
+            setStateForName(name!, init)
         }
-        setStateForName(name!, state)
     }, [state]);
     init[12] = true
     const squares = generateSquares(state, setState, text, isTask)
 
     return <div>
-        {seed}
         {squares.map((v, i) => (
             <div style={{display: 'flex', flexDirection: 'row'}} key={i}>{v}</div>
         ))}
