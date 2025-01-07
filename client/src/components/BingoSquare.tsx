@@ -1,6 +1,6 @@
 import React from "react";
 import {ReactFitty} from "react-fitty";
-import {setStateForName} from "@/componenets/ServerActions";
+import {setStateForName} from "@/components/ServerActions";
 
 interface BingoType {
     index: number,

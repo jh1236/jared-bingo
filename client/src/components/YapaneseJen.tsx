@@ -1,16 +1,25 @@
-'use client'
-
 import React, {useEffect} from "react";
 
 const defaultValue = 'Write something here!';
 
 import classes from "./button.module.css";
-import {getYapaneseJenForName} from "@/componenets/ServerActions";
+import {getYapaneseJenForName} from "@/components/ServerActions";
+import Link from "next/link";
 
-export function YapaneseJen() {
+interface YapaneseJenProps {
+    yapaneseJen: number;
+    setYapaneseJen: (yapaneseJen: number) => void;
+    regenBoard: () => void;
+}
+
+export function YapaneseJen({yapaneseJen, setYapaneseJen, regenBoard}: YapaneseJenProps) {
     const name = localStorage.getItem("name");
     const ref = React.useRef<HTMLInputElement | null>(null);
-    const [yappaneseJen, setYappaneseJen] = React.useState<number>(0);
+    useEffect(() => {
+        if (name) {
+            getYapaneseJenForName(name).then(setYapaneseJen)
+        }
+    })
     if (name === null) {
         return <div style={{
             alignItems: "center",
@@ -34,9 +43,7 @@ export function YapaneseJen() {
             </button>
         </div>;
     }
-    useEffect(() => {
-        getYapaneseJenForName(name).then(setYappaneseJen)
-    })
+
     return <div style={{
         alignItems: "center",
         width: '100%',
@@ -44,18 +51,21 @@ export function YapaneseJen() {
     }}>
         <br></br>
         <br></br>
-        <p>My name is {name}. I have {yappaneseJen} Yappanese Jen!</p>
+        <p>My name is {name}. I have {yapaneseJen} Yappanese Jen!</p>
         <br></br>
         <br></br>
         <button
             className={classes.button}
-            onClick={
-                () => {
-                    localStorage.removeItem('name');
-                    location.reload();
-                }
-            }
-        >clear
+            onClick={regenBoard}
+        >New Board
         </button>
+        <br></br>
+        <br></br>
+        <Link href='/shop'>
+            <button
+                className={classes.button}
+            >To Shop
+            </button>
+        </Link>
     </div>;
 }

@@ -1,16 +1,12 @@
-import {BingoBox} from "@/componenets/BingoBox";
-import {YapaneseJen} from "@/componenets/YapaneseJen";
+import React from "react";
+import {BingoBox} from "@/components/BingoBox";
 
 
 export default function Home() {
     return (
         <div style={{height: "100vh"}}>
-            <div style={{height: '100vmin', maxHeight: "80vh"}}>
-                <BingoBox></BingoBox>
-            </div>
-            <div style={{height: "20%"}}>
-                <YapaneseJen></YapaneseJen>
-            </div>
+            <img src='/coollogo_com-5458458.gif' alt={'A sick logo saying Jared Bingo but it\'s on fire'}/>
+            <BingoBox></BingoBox>
         </div>
     );
 }

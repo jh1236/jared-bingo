@@ -1,10 +1,11 @@
 'use client'
 
 import React, {useEffect} from "react";
-import {BingoSquare} from "@/componenets/BingoSquare";
+import {BingoSquare} from "@/components/BingoSquare";
 import data from '../resources/squares.json'
 import dictionary from '../resources/dictionary_keys.json'
-import {addYapaneseJenForName, getBoardForName, setBoardForName, setStateForName} from "@/componenets/ServerActions";
+import {addYapaneseJenForName, getBoardForName, setBoardForName, setStateForName} from "@/components/ServerActions";
+import {YapaneseJen} from "@/components/YapaneseJen";
 
 function fakeRandom(seed: number) {
     //used so that we can have a seeded rng
@@ -13,6 +14,7 @@ function fakeRandom(seed: number) {
 }
 
 function winCheck(state: boolean[]): boolean {
+    state[12] = true
     let passedLeftDiag = true;
     let passedRightDiag = true;
     for (let i = 0; i < 5; i++) {
@@ -78,7 +80,25 @@ function generateBingo(seed: number,
 }
 
 
-export function BingoBox() {
+interface BingoBoxProps {
+}
+
+function generateNewBingo(setSeed: (state: number) => void,
+                          setState: (state: boolean[]) => void,
+                          setText: (state: string[]) => void,
+                          setIsTask: (isTask: boolean[]) => void) {
+    const name = localStorage.getItem("name");
+    const newSeed = Math.random() * 123456789
+    const init = Array(25).fill(false)
+    init[12] = true
+    setSeed(newSeed)
+    setBoardForName(name!, newSeed)
+    setState(init)
+    generateBingo(newSeed, setText, setIsTask);
+}
+
+export function BingoBox({}: BingoBoxProps) {
+    const [yapaneseJen, setYapaneseJen] = React.useState<number>(0);
     const init = Array(25).fill(false)
     init[12] = true
     const [state, setState] = React.useState<boolean[]>(init);
@@ -93,19 +113,23 @@ export function BingoBox() {
                     setSeed(b.board)
                     generateBingo(b.board, setText, setIsTask);
                 } else if (seed === 0) {
-                    const newSeed = Math.random() * 123456789
-                    setSeed(newSeed)
-                    setBoardForName(name!, newSeed)
-                    generateBingo(newSeed, setText, setIsTask);
+                    generateNewBingo(setSeed, setState, setText, setIsTask)
                 }
                 if (b.state) setState(b.state);
             })
+        } else {
+            const text = Array(25).fill("")
+            text[17] = "Login by writing your name here"
+            text[22] = "⬇️"
+            setText(text)
         }
     }, []);
     useEffect(() => {
         if (winCheck(state)) {
             alert("YIPE!!")
-            addYapaneseJenForName(name!, 1).then(() => location.reload());
+            addYapaneseJenForName(name!, 1).then(() => {
+                setYapaneseJen(yapaneseJen + 1)
+            });
             const newSeed = Math.random() * 123456789
             setSeed(newSeed)
             setBoardForName(name!, newSeed)
@@ -117,9 +141,14 @@ export function BingoBox() {
     init[12] = true
     const squares = generateSquares(state, setState, text, isTask)
 
-    return <div>
-        {squares.map((v, i) => (
-            <div style={{display: 'flex', flexDirection: 'row'}} key={i}>{v}</div>
-        ))}
-    </div>;
+    return <>
+        <div style={{height: '100vmin', maxHeight: "80vh"}}>
+            {squares.map((v, i) => (
+                <div style={{display: 'flex', flexDirection: 'row'}} key={i}>{v}</div>
+            ))}
+        </div>
+        <div style={{height: "20%"}}>
+            <YapaneseJen yapaneseJen={yapaneseJen} setYapaneseJen={setYapaneseJen} regenBoard={() => generateNewBingo(setSeed, setState, setText, setIsTask)}></YapaneseJen>
+        </div>
+    </>;
 }
