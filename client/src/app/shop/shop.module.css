@@ -1,0 +1,10 @@
+.shopButton{
+    background: #c85000;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    position: relative;
+
+}
