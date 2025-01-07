@@ -6,11 +6,10 @@
     "Jared buys orange juice",
     "Jared buys a coffee frappe",
     "Jared queues Yuno Miles",
-    "Jared gets angry at someone for doing something he would do.",
-    "Jared has to pull over to fix car.",
+    "Jared has to pull over to fix car",
     "Jared goes to a dirt road",
     "Jared goes to Spudshed",
-    "Jared gets fast food that isn't Maccas",
+    "Jared gets fast food that isn't Macca's",
     "Jared says 'I know exactly where we are'",
     "Jared says 'these two places have just connected'",
     "Jared says 'why did we listen to so much of that song'",
@@ -36,7 +35,6 @@
     "Jared uses the lightbar on someone",
     "Jared says 'ribbed for her pleasure'",
     "Jared says 'ooooh that was nice'",
-    "Digby gets executed",
     "Jared says 'ooh that's a nice word'",
     "Jared says half an idiom",
     "Jared illuminates the people in the backseat",
@@ -51,7 +49,10 @@
     "Jared gets home after 3am",
     "Jared ends up over an hour from his house",
     "Jared says 'fuck I'm good'",
-    "Jared complains about a speed limit"
+    "Jared complains about a speed limit",
+    "Jared tries to get someone to turn their headlights on",
+    "Jared sings the song before it comes in",
+    "Jared uses the horn"
   ],
   "tasks": [
     "Spot a mobile camera/roo before Jared",
@@ -59,7 +60,8 @@
     "Steal Jared's phone",
     "Convince Jared of an obvious lie",
     "Make Jared laugh using the word '$random'",
-    "Make Jared say the word '$random'",
-    "Give Jared head in the back of the car"
+    "Make anyone say the word '$random'",
+    "Give Jared head in the back of the car",
+    "Execute Digby"
   ]
 }
