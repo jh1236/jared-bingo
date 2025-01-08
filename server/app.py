@@ -85,7 +85,7 @@ def use_item():
     name = request.json['name'].lower()
     item = request.json['item']
     if item not in database[name]["inventory"]:
-        return "Item Not Found", 400
+        return {"inventory": database[name]["inventory"]}, 400
     database[name]["inventory"].remove(item)
     with open(f"./resources/{DATABASE_FILENAME}", 'w+') as f:
         json.dump(database, f, indent=4)
