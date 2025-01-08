@@ -7,6 +7,13 @@ from flask_cors import CORS
 DATABASE_FILENAME = "very_real_database_that_isnt_a_json_file.json"
 app = Flask(__name__)
 CORS(app)
+database = defaultdict(lambda: {"score": 0, "board": None, "state": None, "inventory": []})
+items = []
+
+with open(f"./resources/{DATABASE_FILENAME}", 'r') as f:
+    database |= json.load(f)
+with open(f"./resources/inventory_items.json", 'r') as f:
+    items += json.load(f)
 
 
 def load_database():
@@ -24,7 +31,7 @@ def load_items():
 @app.get('/api/score')
 def get_score():  # put application's code here
     name = request.args.get('name').lower()
-    return {"score": load_database()[name]["score"]}
+    return {"score": database[name]["score"]}
 
 
 @app.post('/api/score')
@@ -48,6 +55,7 @@ def get_board():
 
 @app.post('/api/board')
 def set_board():
+    print(request.json)
     database = load_database()
     name = request.json['name'].lower()
     board = request.json['board']
@@ -119,3 +127,4 @@ def get_purchases():
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0")
+

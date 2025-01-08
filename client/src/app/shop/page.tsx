@@ -99,15 +99,23 @@ export default function TestPage() {
                         <br></br>
                         <button onClick={() =>
                             purchase(item.name)
-                        } className={classes.shopButton}>
+                        } className={classes.shopButton} style={{backgroundColor: item.cost <= yappaneseJen ? '#c85000' : 'gray'}}>
                             <ReactFitty wrapText>
-                                <img style={{display: 'inline', width: '25px', height: '50px'}}
+                                <img style={{
+                                    display: 'inline',
+                                    width: '25px',
+                                    height: '50px',
+                                }}
                                      src={item.image}/>
-                                {item.formattedName}
-                                ({item.cost}
-                                <img style={{display: 'inline'}}
-                                     src='/jenny.jpeg' width='15'
-                                     height='15'/>)
+                                {item.cost <= yappaneseJen ?
+                                    <>{item.formattedName} ({item.cost}<img style={{display: 'inline'}}
+                                                                            src='/jenny.jpeg' width='15'
+                                                                            height='15'/>)</> :
+                                    <s>{item.formattedName} ({item.cost}<img style={{display: 'inline'}}
+                                                                             src='/jenny.jpeg' width='15'
+                                                                             height='15'/>)</s>
+                                }
+                                )
                             </ReactFitty>
                         </button>
                     </Fragment>
