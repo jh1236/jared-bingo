@@ -2,7 +2,7 @@
 <module type="WEB_MODULE" version="4">
   <component name="FacetManager">
     <facet type="Python" name="Python facet">
-      <configuration sdkName="Python 3.12" />
+      <configuration sdkName="Python 3.12 (jared-bingo)" />
     </facet>
   </component>
   <component name="NewModuleRootManager">
@@ -12,9 +12,10 @@
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
       <excludeFolder url="file://$MODULE_DIR$/server/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/venv" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.12 (bingo-site) (2)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Python 3.12 interpreter library" level="application" />
+    <orderEntry type="library" name="Python 3.12 (jared-bingo) interpreter library" level="application" />
   </component>
 </module>
