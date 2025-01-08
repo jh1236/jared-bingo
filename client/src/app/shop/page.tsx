@@ -3,6 +3,7 @@ import React, {useEffect} from "react";
 import {addYapaneseJenForName, getYapaneseJenForName} from "@/components/ServerActions";
 import Link from "next/link";
 import classes from "./shop.module.css";
+import * as url from "node:url";
 
 
 export default function Shop() {
@@ -12,7 +13,7 @@ export default function Shop() {
         if (name) {
             getYapaneseJenForName(name).then(setYappaneseJen)
         }
-    })
+    }, [])
 
     function purchase(cost: number) {
         if (!name) alert('Login first!!');
@@ -29,24 +30,20 @@ export default function Shop() {
 
     return (
         <div>
-            <div style={{height: "200px"}}>
-                <img src='/cooler-logo.gif'></img>
-                <p style={{position: 'absolute', top: '96', right: '0', fontSize: '35px'}}>
-                    you got {yappaneseJen} <img style={{display: 'inline'}} src='/jenny.jpeg' width='50' height='50'/>
+            <img src='/cooler-logo.gif' alt={"cooler logo"}></img>
+            <div style={{height: "100px"}}>
+
+                <p style={{position: 'absolute', right: '0', fontSize: '35px', margin: '10px'}}>
+                    you got {yappaneseJen} <img style={{display: 'inline'}} src='/small_jenny.jpg' width='50'
+                                                height='50'/>
                 </p>
                 <Link href='/'>
-                    <button style={{position: 'absolute', top: '96', left: '0', fontSize: '35px', height:'100', margin:"auto", background:"white"}}>
-                        To BINGO
+                    <button className={classes.rainbow}>
+                        to bingo
                     </button>
                 </Link>
             </div>
-            <div style={{
-                position: 'absolute', top: '200', left: '0',
-                fontSize: '20px',
-                alignItems: "center",
-                width: '100%',
-                textAlign: "center"
-            }}>
+            <div className={classes.background}>
                 <button
                     className={classes.shopButton}
                     onClick={() => addYapaneseJenForName(name!, 5).then((newAmount) => setYappaneseJen(newAmount))}>Get
