@@ -64,9 +64,16 @@ def purchase_items():
     name = request.json['name'].lower()
     to_purchase = request.json['item']
     score = database[name]["score"]
-    if score < items[to_purchase]["cost"]:
-        return "Broke Fuck", 400
+    cost = items[to_purchase]["cost"]
+    if score < cost:
+        return {
+            "inventory": database[name]["inventory"],
+            "score": database[name]["score"]
+        }, 400
+    with open(f"./resources/{DATABASE_FILENAME}", 'w+') as f:
+        json.dump(database, f, indent=4)
     database[name]["inventory"].append(request.json['item'])
+    database[name]["score"] -= cost
     return {
         "inventory": database[name]["inventory"],
         "score": database[name]["score"]
@@ -80,12 +87,14 @@ def use_item():
     if item not in database[name]["inventory"]:
         return "Item Not Found", 400
     database[name]["inventory"].remove(item)
+    with open(f"./resources/{DATABASE_FILENAME}", 'w+') as f:
+        json.dump(database, f, indent=4)
     return {"inventory": database[name]["inventory"]}, 203
 
 
 @app.get('/api/inventory')
 def get_inventory():
-    name = request.json['name'].lower()
+    name = request.args.get('name').lower()
     return {"inventory": database[name]["inventory"]}
 
 

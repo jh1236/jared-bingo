@@ -55,7 +55,10 @@ export function getInventoryForName(name: string): Promise<string[]> {
     }))
 }
 
-export function purchaseItemForName(name: string, item: string): Promise<{ score: number, inventory: string[] }> {
+export function purchaseItemForName(name: string, item: string): Promise<[{
+    score: number,
+    inventory: string[]
+}, boolean]> {
     return fetch(`${site}/purchase`, {
         method: "POST",
         body: JSON.stringify({name, item}),
@@ -63,15 +66,13 @@ export function purchaseItemForName(name: string, item: string): Promise<{ score
             "Content-Type": "application/json",
         },
     }).then((response: Response) => {
-        if (response.ok) {
-            return response.json()
-        } else {
-            response.text().then((data: string) => Promise.reject(data))
-        }
+        return response.json().then((out: any) => {
+            return [out, response.ok]
+        })
     })
 }
 
-export function consumeItemForName(name: string, item: string): Promise<string[]> {
+export function consumeItemForName(name: string, item: string): Promise<[string[], boolean]> {
     return fetch(`${site}/use_item`, {
         method: "POST",
         body: JSON.stringify({name, item}),
@@ -79,13 +80,9 @@ export function consumeItemForName(name: string, item: string): Promise<string[]
             "Content-Type": "application/json",
         },
     }).then((response: Response) => {
-        if (response.ok) {
-            return response.json().then((data: any) => {
-                return data.inventory;
-            })
-        } else {
-            response.text().then((data: string) => Promise.reject(data))
-        }
+        return response.json().then((out: any) => {
+            return [out, response.ok]
+        })
     })
 }
 

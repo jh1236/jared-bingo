@@ -1,6 +1,11 @@
 'use client'
 import React, {useEffect} from "react";
-import {addYapaneseJenForName, getYapaneseJenForName, purchaseItemForName} from "@/components/ServerActions";
+import {
+    addYapaneseJenForName, consumeItemForName,
+    getInventoryForName,
+    getYapaneseJenForName,
+    purchaseItemForName
+} from "@/components/ServerActions";
 import Link from "next/link";
 import classes from "./shop.module.css";
 
@@ -12,12 +17,33 @@ export default function TestPage() {
     useEffect(() => {
         if (name) {
             getYapaneseJenForName(name).then(setYappaneseJen)
+            getInventoryForName(name).then(setInventory)
         }
-    })
+    }, [])
     if (!name) {
         location.href = "/"
         return <></>
     }
+
+    function purchase(type: string) {
+        purchaseItemForName(name!, type).then(([data, success]) => {
+            if (!success) {
+                alert("Broke Fuck")
+            }
+            setInventory(data.inventory)
+            setYappaneseJen(data.score)
+        })
+    }
+
+    function useItem(item: string) {
+        consumeItemForName(name!, item).then(([data, success]) => {
+            if (!success) {
+                alert("Broke Fuck")
+            }
+            setInventory(data)
+        })
+    }
+
     return (
         <div>
             Inventory: [{inventory.map((v) => `${v}, `)}]
@@ -53,7 +79,10 @@ export default function TestPage() {
                     +5 cash
                 </button>
                 <br/>
-                <button onClick={() => purchaseItemForName(name, "pony")} className={classes.shopButton}>Buy A Pony (costs 4)
+                <button onClick={() =>
+                    purchase("pony")
+                } className={classes.shopButton}>Buy A Pony
+                    (costs 4)
                 </button>
 
             </div>
