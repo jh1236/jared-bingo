@@ -8,12 +8,12 @@ DATABASE_FILENAME = "very_real_database_that_isnt_a_json_file.json"
 app = Flask(__name__)
 CORS(app)
 database = defaultdict(lambda: {"score": 0, "board": None, "state": None, "inventory": []})
-items = {}
+items = []
 
 with open(f"./resources/{DATABASE_FILENAME}", 'r') as f:
     database |= json.load(f)
 with open(f"./resources/inventory_items.json", 'r') as f:
-    items |= json.load(f)
+    items += json.load(f)
 
 
 @app.get('/api/score')
@@ -65,8 +65,8 @@ def purchase_items():
     name = request.json['name'].lower()
     to_purchase = request.json['item']
     score = database[name]["score"]
-    cost = items[to_purchase]["cost"]
-    if score < cost:
+    item = next(i for i in items if i["name"] == to_purchase)
+    if score < item["cost"]:
         return {
             "inventory": database[name]["inventory"],
             "score": database[name]["score"]
@@ -74,7 +74,7 @@ def purchase_items():
     with open(f"./resources/{DATABASE_FILENAME}", 'w+') as f:
         json.dump(database, f, indent=4)
     database[name]["inventory"].append(request.json['item'])
-    database[name]["score"] -= cost
+    database[name]["score"] -= item["cost"]
     return {
         "inventory": database[name]["inventory"],
         "score": database[name]["score"]
@@ -97,6 +97,10 @@ def use_item():
 def get_inventory():
     name = request.args.get('name').lower()
     return {"inventory": database[name]["inventory"]}
+
+@app.get('/api/purchasable')
+def get_purchases():
+    return {"items": items}
 
 
 if __name__ == '__main__':

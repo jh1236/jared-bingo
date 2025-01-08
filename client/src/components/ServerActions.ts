@@ -55,6 +55,14 @@ export function getInventoryForName(name: string): Promise<string[]> {
     }))
 }
 
+export function getPurchasableItems(): Promise<{ formattedName: string; name: string, cost: number, image: string }[]> {
+    return fetch(`${site}/purchasable`, {
+        method: "GET",
+    }).then((response: Response) => response.json().then((data: any) => {
+        return data.items;
+    }))
+}
+
 export function purchaseItemForName(name: string, item: string): Promise<[{
     score: number,
     inventory: string[]

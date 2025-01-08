@@ -2,22 +2,30 @@
 import React, {useEffect} from "react";
 import {
     addYapaneseJenForName, consumeItemForName,
-    getInventoryForName,
+    getInventoryForName, getPurchasableItems,
     getYapaneseJenForName,
     purchaseItemForName
 } from "@/components/ServerActions";
 import Link from "next/link";
 import classes from "./shop.module.css";
+import {ReactFitty} from "react-fitty";
 
 
 export default function TestPage() {
     const [yappaneseJen, setYappaneseJen] = React.useState<number>(0);
+    const [shopItems, setShopItems] = React.useState<{
+        formattedName: string;
+        name: string,
+        cost: number,
+        image: string
+    }[]>([]);
     const [inventory, setInventory] = React.useState<string[]>([]);
     const name: string | null = localStorage.getItem('name')
     useEffect(() => {
         if (name) {
             getYapaneseJenForName(name).then(setYappaneseJen)
             getInventoryForName(name).then(setInventory)
+            getPurchasableItems().then(setShopItems)
         }
     }, [])
     if (!name) {
@@ -78,13 +86,13 @@ export default function TestPage() {
                     onClick={() => addYapaneseJenForName(name!, 5).then((newAmount) => setYappaneseJen(newAmount))}>Get
                     +5 cash
                 </button>
-                <br/>
-                <button onClick={() =>
-                    purchase("pony")
-                } className={classes.shopButton}>Buy A Pony
-                    (costs 4)
-                </button>
-
+                {shopItems.map((item, index) =>
+                    <button key={index} onClick={() =>
+                        purchase(item.name)
+                    } className={classes.shopButton}>
+                        <ReactFitty wrapText>Buy A {item.formattedName} (costs {item.cost} Jennies)</ReactFitty>
+                    </button>
+                )}
             </div>
         </div>
     )

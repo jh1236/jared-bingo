@@ -1,5 +1,8 @@
-{
-    "pony": {
-        "cost": 4
+[
+    {
+        "name": "pony",
+        "formattedName": "Khalia's best friend",
+        "cost": 4,
+        "image": "/honse"
     }
-}
+]
