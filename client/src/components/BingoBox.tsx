@@ -6,7 +6,7 @@ import data from '../resources/squares.json'
 import dictionary from '../resources/dictionary_keys.json'
 import {addYapaneseJenForName, getBoardForName, setBoardForName, setStateForName} from "@/components/ServerActions";
 import {YapaneseJen} from "@/components/YapaneseJen";
-import {WinPopUp} from "@/components/WinPopUp";
+import {PopUp} from "@/components/PopUp";
 
 function fakeRandom(seed: number) {
     //used so that we can have a seeded rng
@@ -37,7 +37,7 @@ function winCheck(state: boolean[]): boolean {
 const options = data.basic.concat(data.tasks);
 
 
-function generateSquares(state: boolean[], setState: (state: boolean[]) => void, text: string[], isTask: boolean[]) {
+function generateSquares(state: boolean[], setState: (state: boolean[]) => void, text: string[], isTask: boolean[], setYapaneseJen: (a: number) => void) {
     const squares = []
 
     for (let i = 0; i < 5; i++) {
@@ -45,7 +45,7 @@ function generateSquares(state: boolean[], setState: (state: boolean[]) => void,
         for (let j = 0; j < 5; j++) {
             const pos = i * 5 + j;
             next.push(<BingoSquare key={j} index={pos} state={state} setState={setState} text={text[pos]}
-                                   isTask={isTask[pos]}/>);
+                                   isTask={isTask[pos]} setYapaneseJen={setYapaneseJen}/>);
         }
         squares.push(next);
     }
@@ -129,7 +129,7 @@ export function BingoBox({}: BingoBoxProps) {
     useEffect(() => {
         if (winCheck(state)) {
             setIsOpen(true);
-            addYapaneseJenForName(name!, 1).then((newAmount) => {
+            addYapaneseJenForName(name!, 20).then((newAmount) => {
                 setYapaneseJen(newAmount)
             });
             const newSeed = Math.random() * 123456789
@@ -141,7 +141,7 @@ export function BingoBox({}: BingoBoxProps) {
         }
     }, [state]);
     init[12] = true
-    const squares = generateSquares(state, setState, text, isTask)
+    const squares = generateSquares(state, setState, text, isTask, setYapaneseJen)
 
     return <>
         <div style={{height: '100vmin', maxHeight: "80vh"}}>
@@ -150,8 +150,13 @@ export function BingoBox({}: BingoBoxProps) {
             ))}
         </div>
         <div style={{height: "20%"}}>
-            <YapaneseJen yapaneseJen={yapaneseJen} setYapaneseJen={setYapaneseJen} regenBoard={() => generateNewBingo(setSeed, setState, setText, setIsTask)}></YapaneseJen>
+            <YapaneseJen yapaneseJen={yapaneseJen} setYapaneseJen={setYapaneseJen}
+                         regenBoard={() => generateNewBingo(setSeed, setState, setText, setIsTask)}></YapaneseJen>
         </div>
-        <WinPopUp isOpen={isOpen} setIsOpen={setIsOpen}></WinPopUp>
+        <PopUp isOpen={isOpen} setIsOpen={setIsOpen} title='YIPE!!!!'
+               description='You have completed a bingo!!'
+               exitText='Fuck yea, let me
+    see my new
+    card!'></PopUp>
     </>;
 }
