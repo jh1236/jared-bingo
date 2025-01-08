@@ -95,6 +95,7 @@ function generateNewBingo(setSeed: (state: number) => void,
     setSeed(newSeed)
     setBoardForName(name!, newSeed)
     setState(init)
+    setStateForName(name!, init)
     generateBingo(newSeed, setText, setIsTask);
 }
 

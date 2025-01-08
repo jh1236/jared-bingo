@@ -27,6 +27,7 @@ def add_to_score():
     name = request.json['name'].lower()
     score = request.json['score']
     database[name]["score"] += score
+    database[name]["score"] = max(database[name]["score"], 0)
     with open(f"./resources/{DATABASE_FILENAME}", 'w+') as f:
         json.dump(database, f, indent=4)
     return {"score": database[name]["score"]}, 200

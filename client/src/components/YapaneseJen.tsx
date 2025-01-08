@@ -3,7 +3,7 @@ import React, {useEffect} from "react";
 const defaultValue = 'Write something here!';
 
 import classes from "./button.module.css";
-import {getYapaneseJenForName} from "@/components/ServerActions";
+import {addYapaneseJenForName, getYapaneseJenForName} from "@/components/ServerActions";
 import Link from "next/link";
 
 interface YapaneseJenProps {
@@ -56,8 +56,11 @@ export function YapaneseJen({yapaneseJen, setYapaneseJen, regenBoard}: YapaneseJ
         <br></br>
         <button
             className={classes.button}
-            onClick={regenBoard}
-        >New Board
+            onClick={() => {
+                regenBoard()
+                addYapaneseJenForName(name, -1).then(setYapaneseJen)
+            }}
+        >New Board {yapaneseJen > 0 ? '(-1)' : null}
         </button>
         <br></br>
         <br></br>

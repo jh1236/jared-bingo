@@ -3,7 +3,6 @@ import React, {useEffect} from "react";
 import {addYapaneseJenForName, getYapaneseJenForName} from "@/components/ServerActions";
 import Link from "next/link";
 import classes from "./shop.module.css";
-import * as url from "node:url";
 
 
 export default function Shop() {

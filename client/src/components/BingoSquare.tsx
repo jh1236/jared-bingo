@@ -35,7 +35,7 @@ export function BingoSquare({index, setState, state, text, isTask, setYapaneseJe
         });
     }
     }>
-        Mark Square As {state[index] ? 'Incomplete' : 'Complete'}
+        Mark Square As {state[index] ? 'Incomplete' : 'Complete'} ({isTask ? (state[index] ? -5 : '+4') : (state[index] ? -3 : '+2')})
     </button>
     return <div style={{
         width: "20%",
@@ -56,7 +56,7 @@ export function BingoSquare({index, setState, state, text, isTask, setYapaneseJe
                     setIsOpen(true);
                 }}>
         <ReactFitty wrapText>{'   '}{isCentreSquare ? 'Free Space!!' : text}{'   '}</ReactFitty>
-        <PopUp isOpen={isOpen} setIsOpen={setIsOpen} title='Bingo Square' description={`${text}. (Setting a square as complete pre-emptively carries a penalty.)`}
+        <PopUp isOpen={isOpen} setIsOpen={setIsOpen} title='Bingo Square' description={`${text}.`}
                buttons={[complete]}></PopUp>
     </div>;
 }
