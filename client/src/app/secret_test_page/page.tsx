@@ -46,7 +46,7 @@ export default function TestPage() {
     function useItem(item: string) {
         consumeItemForName(name!, item).then(([data, success]) => {
             if (!success) {
-                alert("Broke Fuck")
+                alert("????")
             }
             setInventory(data)
         })
@@ -92,9 +92,16 @@ export default function TestPage() {
                         <button onClick={() =>
                             purchase(item.name)
                         } className={classes.shopButton}>
-                            <ReactFitty wrapText>{item.formattedName} ({item.cost} <img style={{display: 'inline'}}
-                                                                                        src='/jenny.jpeg' width='15'
-                                                                                        height='15'/>)</ReactFitty>
+                            <ReactFitty wrapText>
+                                <img
+                                    style={{display: 'inline'}}
+                                    src={item.image} width='15'
+                                    height='15'/>
+                                {item.formattedName} ({item.cost}
+                                <img
+                                    style={{display: 'inline'}}
+                                    src='/jenny.jpeg' width='15'
+                                    height='15'/>)</ReactFitty>
                         </button>
                     </Fragment>
                 )}

@@ -6,11 +6,12 @@
     text-align: center;
     position: relative;
     font-size: 20px;
-    width: 250px;
+    width: 300px;
     height: 50px;
     border: 2px solid black;
     margin: 2px;
     border-radius: 10px;
+    overflow: hidden;
 }
 
 .rainbow {
@@ -35,13 +36,13 @@
     left: 0;
     font-size: 20px;
     align-items: center;
-    width: 70%;
+    width: 85%;
     text-align: center;
     border: black 2px solid;
     padding-top: 30px;
     padding-bottom: 30px;
-    margin-left: 15%;
-    margin-right: 15%;
+    margin-left: 7.5%;
+    margin-right: 7.5%;
     z-index: 0;
     overflow: hidden;
     display: inline-block
@@ -51,17 +52,16 @@
     position:absolute;
     z-index: -1;
     /*original uses 141% to approximate sqrt(2), but that only works with squares. idk how to find smallest possible rectangle that completely covers another, so instead the child is 1k*1kpx*/
-    width:1000px;
-    height:1000px;
+    width:10000px;
+    height:10000px;
     left:50%;
     top:50%;
     /*idk why the local image doesnt work lol*/
     background-image: url("https://www.freeiconspng.com/thumbs/cart-icon/basket-cart-icon-27.png");
-    background-size: 7%;
+    background-size: 75px;
     opacity: 0.5;
     transform: translate(-50%, -50%) rotate(45deg);
 }
-
 
 @keyframes colorRotate {
     from {
