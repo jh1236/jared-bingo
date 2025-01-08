@@ -65,7 +65,7 @@ export function getPurchasableItems(): Promise<{ formattedName: string; name: st
 
 export function purchaseItemForName(name: string, item: string): Promise<[{
     score: number,
-    inventory: string[]
+    inventory: { formattedName: string; name: string, cost: number, image: string }[]
 }, boolean]> {
     return fetch(`${site}/purchase`, {
         method: "POST",

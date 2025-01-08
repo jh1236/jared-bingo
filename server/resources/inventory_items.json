@@ -2,7 +2,7 @@
     {
         "name": "pony",
         "formattedName": "Khalia's best friend",
-        "cost": 4,
+        "cost": 2,
         "image": "/honse.jpg"
     },
     {
@@ -15,6 +15,12 @@
         "name":"song",
         "formattedName": "Queue a song",
         "cost": 10,
+        "image": "/queue.jpg"
+    },
+    {
+        "name":"windows",
+        "formattedName": "Put the windows down/up",
+        "cost": 5,
         "image": "/queue.jpg"
     }
 ]
