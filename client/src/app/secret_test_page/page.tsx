@@ -1,5 +1,5 @@
 'use client'
-import React, {useEffect} from "react";
+import React, {Fragment, useEffect} from "react";
 import {
     addYapaneseJenForName, consumeItemForName,
     getInventoryForName, getPurchasableItems,
@@ -87,11 +87,16 @@ export default function TestPage() {
                     +5 cash
                 </button>
                 {shopItems.map((item, index) =>
-                    <button key={index} onClick={() =>
+                    <Fragment key={index}>
+                        <br></br>
+                    <button  onClick={() =>
                         purchase(item.name)
                     } className={classes.shopButton}>
-                        <ReactFitty wrapText>Buy A {item.formattedName} (costs {item.cost} Jennies)</ReactFitty>
+                        <ReactFitty wrapText>{item.formattedName}  ({item.cost} <img style={{display: 'inline'}}
+                                                                                     src='/jenny.jpeg' width='15'
+                                                                                     height='15'/>)</ReactFitty>
                     </button>
+                    </Fragment>
                 )}
             </div>
         </div>
