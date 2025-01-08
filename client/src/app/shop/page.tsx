@@ -31,11 +31,11 @@ export default function Shop() {
         <div>
             <div style={{height: "200px"}}>
                 <img src='/cooler-logo.gif'></img>
-                <h1 style={{position: 'absolute', top: '96', right: '0', fontSize: '40px'}}>
+                <p style={{position: 'absolute', top: '96', right: '0', fontSize: '35px'}}>
                     you got {yappaneseJen} <img style={{display: 'inline'}} src='/jenny.jpeg' width='50' height='50'/>
-                </h1>
+                </p>
                 <Link href='/'>
-                    <button style={{position: 'absolute', top: '96', left: '0', fontSize: '40px'}}>
+                    <button style={{position: 'absolute', top: '96', left: '0', fontSize: '35px', height:'100', margin:"auto", background:"white"}}>
                         To BINGO
                     </button>
                 </Link>
