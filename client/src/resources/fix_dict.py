@@ -22,7 +22,7 @@ def trim_dict():
         ans = input(f'Should "{lines[i]}" be included in the dictionary? (Y\\N)\t')
         while ans.lower() not in ['y', 'yes', 'n', 'no', 'x', 'exit']:
             ans = input("That's not a valid fucking answer. Try again.\t")
-        if ans.lower() in ['y', 'yes']:
+        if ans.lower() in ['n', 'no']:
             del lines[i]
     with open("dictionary_keys.json", "w+") as fp:
         json.dump(lines, fp)
@@ -30,3 +30,4 @@ def trim_dict():
 
 if __name__ == '__main__':
     trim_dict()
+    # create_dict()
