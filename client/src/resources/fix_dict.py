@@ -17,7 +17,7 @@ def trim_dict():
     with open("dictionary_keys.json") as fp:
         lines: list[str] = json.load(fp)
     ans = ''
-    while ans != 'x':
+    while ans not in ['x', 'exit']:
         i = random.randint(0, len(lines))
         ans = input(f'Should "{lines[i]}" be included in the dictionary? (Y\\N)\t')
         while ans.lower() not in ['y', 'yes', 'n', 'no', 'x', 'exit']:
