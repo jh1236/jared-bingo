@@ -4,13 +4,16 @@ from collections import defaultdict
 from flask import Flask, request
 from flask_cors import CORS
 
-FILENAME = "very_real_database_that_isnt_a_json_file.json"
+DATABASE_FILENAME = "very_real_database_that_isnt_a_json_file.json"
 app = Flask(__name__)
 CORS(app)
-database = defaultdict(lambda: {"score": 0, "board": None, "state": None})
+database = defaultdict(lambda: {"score": 0, "board": None, "state": None, "inventory": []})
+items = {}
 
-with open(f"./resources/{FILENAME}", 'r') as f:
+with open(f"./resources/{DATABASE_FILENAME}", 'r') as f:
     database |= json.load(f)
+with open(f"./resources/inventory_items.json", 'r') as f:
+    items |= json.load(f)
 
 
 @app.get('/api/score')
@@ -24,7 +27,7 @@ def add_to_score():
     name = request.json['name'].lower()
     score = request.json['score']
     database[name]["score"] += score
-    with open(f"./resources/{FILENAME}", 'w+') as f:
+    with open(f"./resources/{DATABASE_FILENAME}", 'w+') as f:
         json.dump(database, f, indent=4)
     return {"score": database[name]["score"]}, 200
 
@@ -41,18 +44,49 @@ def set_board():
     name = request.json['name'].lower()
     board = request.json['board']
     database[name]["board"] = board
-    with open(f"./resources/{FILENAME}", 'w+') as f:
+    with open(f"./resources/{DATABASE_FILENAME}", 'w+') as f:
         json.dump(database, f, indent=4)
     return {"board": database[name]["board"], "state": database[name]["state"]}, 200
+
 
 @app.post('/api/state')
 def set_state():
     name = request.json['name'].lower()
     state = request.json['state']
     database[name]["state"] = state
-    with open(f"./resources/{FILENAME}", 'w+') as f:
+    with open(f"./resources/{DATABASE_FILENAME}", 'w+') as f:
         json.dump(database, f, indent=4)
     return {"board": database[name]["board"], "state": database[name]["state"]}, 200
+
+
+@app.post('/api/purchase')
+def purchase_items():
+    name = request.json['name'].lower()
+    to_purchase = request.json['item']
+    score = database[name]["score"]
+    if score < items[to_purchase]["cost"]:
+        return "Broke Fuck", 400
+    database[name]["inventory"].append(request.json['item'])
+    return {
+        "inventory": database[name]["inventory"],
+        "score": database[name]["score"]
+    }, 200
+
+
+@app.post('/api/use_item')
+def use_item():
+    name = request.json['name'].lower()
+    item = request.json['item']
+    if item not in database[name]["inventory"]:
+        return "Item Not Found", 400
+    database[name]["inventory"].remove(item)
+    return {"inventory": database[name]["inventory"]}, 203
+
+
+@app.get('/api/inventory')
+def get_inventory():
+    name = request.json['name'].lower()
+    return {"inventory": database[name]["inventory"]}
 
 
 if __name__ == '__main__':

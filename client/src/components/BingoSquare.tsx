@@ -18,7 +18,7 @@ export function BingoSquare({index, setState, state, text, isTask, setYapaneseJe
     const [isOpen, setIsOpen] = React.useState(false);
     const clicked = isCentreSquare || state[index];
     const name = localStorage.getItem("name");
-    const complete = (setOpen) => <button style={{border: 'solid 1px'}} key={index} onClick={() => {
+    const complete = (setOpen: (arg0: boolean) => void) => <button style={{border: 'solid 1px'}} key={index} onClick={() => {
         const s = state.slice();
         s[index] = !s[index];
         setState(s);

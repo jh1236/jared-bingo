@@ -16,6 +16,5 @@
     </content>
     <orderEntry type="jdk" jdkName="Python 3.12 (bingo-site) (2)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Python 3.12 (jared-bingo) interpreter library" level="application" />
   </component>
 </module>

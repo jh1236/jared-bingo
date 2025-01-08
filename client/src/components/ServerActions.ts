@@ -12,7 +12,7 @@ function stateToInt(state: boolean[]) {
 function intToState(state: number) {
     const out = [];
     for (let i = 0; i < 25; i++) {
-       out.push(((state >> i) & 1) === 1);
+        out.push(((state >> i) & 1) === 1);
     }
     return out;
 }
@@ -38,13 +38,55 @@ export function addYapaneseJenForName(name: string, score: number): Promise<numb
     });
 }
 
-export function getBoardForName(name: string): Promise<{board: number, state: boolean[]}> {
+export function getBoardForName(name: string): Promise<{ board: number, state: boolean[] }> {
     return fetch(`${site}/board?name=${name}`, {
         method: "GET",
     }).then((response: Response) => response.json().then((data: any) => {
         data.state = intToState(data.state);
         return data;
     }))
+}
+
+export function getInventoryForName(name: string): Promise<string[]> {
+    return fetch(`${site}/inventory?name=${name}`, {
+        method: "GET",
+    }).then((response: Response) => response.json().then((data: any) => {
+        return data.inventory;
+    }))
+}
+
+export function purchaseItemForName(name: string, item: string): Promise<{ score: number, inventory: string[] }> {
+    return fetch(`${site}/purchase`, {
+        method: "POST",
+        body: JSON.stringify({name, item}),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    }).then((response: Response) => {
+        if (response.ok) {
+            return response.json()
+        } else {
+            response.text().then((data: string) => Promise.reject(data))
+        }
+    })
+}
+
+export function consumeItemForName(name: string, item: string): Promise<string[]> {
+    return fetch(`${site}/use_item`, {
+        method: "POST",
+        body: JSON.stringify({name, item}),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    }).then((response: Response) => {
+        if (response.ok) {
+            return response.json().then((data: any) => {
+                return data.inventory;
+            })
+        } else {
+            response.text().then((data: string) => Promise.reject(data))
+        }
+    })
 }
 
 export function setBoardForName(name: string, board: number): Promise<Response> {
@@ -56,6 +98,7 @@ export function setBoardForName(name: string, board: number): Promise<Response> 
         },
     });
 }
+
 export function setStateForName(name: string, state: boolean[]): Promise<Response> {
     return fetch(`${site}/state`, {
         method: "POST",
