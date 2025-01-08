@@ -14,6 +14,8 @@
 }
 
 .rainbow {
+    width: calc(50% - 15px);
+    height:60px;
     text-align: center;
     text-decoration: underline;
     font-size: 32px;
@@ -27,9 +29,9 @@
     font-family: "Impact", serif;
 }
 
-.background {
-    position: absolute;
-    top: 300px;
+.shopSection {
+    position: relative;
+    top: 0;
     left: 0;
     font-size: 20px;
     align-items: center;
@@ -44,7 +46,7 @@
     overflow: hidden;
     display: inline-block
 }
-.background::after{
+.shopSection::after{
     content:"";
     position:absolute;
     z-index: -1;
@@ -55,7 +57,7 @@
     top:50%;
     /*idk why the local image doesnt work lol*/
     background-image: url("https://www.freeiconspng.com/thumbs/cart-icon/basket-cart-icon-27.png");
-    background-size: 100px 100px;
+    background-size: 7%;
     opacity: 0.5;
     transform: translate(-50%, -50%) rotate(45deg);
 }

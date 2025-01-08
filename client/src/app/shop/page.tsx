@@ -1,58 +1,112 @@
 'use client'
-import React, {useEffect} from "react";
-import {addYapaneseJenForName, getYapaneseJenForName} from "@/components/ServerActions";
+import React, {Fragment, useEffect} from "react";
+import {
+    addYapaneseJenForName, consumeItemForName,
+    getInventoryForName, getPurchasableItems,
+    getYapaneseJenForName,
+    purchaseItemForName
+} from "@/components/ServerActions";
 import Link from "next/link";
 import classes from "./shop.module.css";
+import {ReactFitty} from "react-fitty";
 
 
-export default function Shop() {
+export default function TestPage() {
     const [yappaneseJen, setYappaneseJen] = React.useState<number>(0);
+    const [shopItems, setShopItems] = React.useState<{
+        formattedName: string;
+        name: string,
+        cost: number,
+        image: string
+    }[]>([]);
+    const [inventory, setInventory] = React.useState<string[]>([]);
     const name: string | null = localStorage.getItem('name')
     useEffect(() => {
         if (name) {
             getYapaneseJenForName(name).then(setYappaneseJen)
+            getInventoryForName(name).then(setInventory)
+            getPurchasableItems().then(setShopItems)
         }
     }, [])
-
-    function purchase(cost: number) {
-        if (!name) alert('Login first!!');
-        getYapaneseJenForName(name!).then((trueBalance) => {
-            setYappaneseJen(trueBalance)
-            if (cost <= trueBalance) {
-                addYapaneseJenForName(name!, cost * -1).then((newAmount) => setYappaneseJen(newAmount));
-            } else {
-                alert('broke fuck')
-            }
-        })
-
+    if (!name) {
+        location.href = "/"
+        return <></>
     }
+
+    function purchase(type: string) {
+        purchaseItemForName(name!, type).then(([data, success]) => {
+            if (!success) {
+                alert("Broke Fuck")
+            }
+            setInventory(data.inventory)
+            setYappaneseJen(data.score)
+        })
+    }
+
+    function useItem(item: string) {
+        consumeItemForName(name!, item).then(([data, success]) => {
+            if (!success) {
+                alert("Broke Fuck")
+            }
+            setInventory(data)
+        })
+    }
+
 
     return (
         <div>
             <img src='/cooler-logo.gif' alt={"cooler logo"}></img>
             <div style={{height: "100px"}}>
+                <div style={{
+                    borderRadius: '10px',
+                    backgroundColor: '#1c1c1c',
+                    textAlign: "center",
+                    margin: '10px',
+                    fontSize: '32px',
+                    position: "absolute",
+                    width: 'calc(50% - 15px)',
+                    height: '60px',
+                    border: '2px black solid',
+                    right: '0',
+                    padding: '0px'
+                }}>
+                    <p style={{position: "relative", top: "2px"}}>
+                        {yappaneseJen} <img style={{display: 'inline'}} src='/small_jenny.jpg' width='50'/>
+                    </p>
+                </div>
 
-                <p style={{position: 'absolute', right: '0', fontSize: '35px', margin: '10px'}}>
-                    you got {yappaneseJen} <img style={{display: 'inline'}} src='/small_jenny.jpg' width='50'
-                                                height='50'/>
-                </p>
                 <Link href='/'>
                     <button className={classes.rainbow}>
                         to bingo
                     </button>
                 </Link>
             </div>
-            <div className={classes.background}>
+
+            {/*opens the shop section*/}
+            <div className={classes.shopSection}>
                 <button
                     className={classes.shopButton}
-                    onClick={() => addYapaneseJenForName(name!, 5).then((newAmount) => setYappaneseJen(newAmount))}>Get
-                    Mulah
+                    onClick={() => addYapaneseJenForName(name!, 5).then((newAmount) => setYappaneseJen(newAmount))}>
+                    Get +5 cash
                 </button>
-                <br/>
-                <button onClick={() => purchase(3)} className={classes.shopButton}>Buy Le Thing - 3 moneys</button>
+                {shopItems.map((item, index) =>
+                    <Fragment key={index}>
+                        <br></br>
+                        <button onClick={() =>
+                            purchase(item.name)
+                        } className={classes.shopButton}>
+                            <ReactFitty wrapText>{item.formattedName} ({item.cost} <img style={{display: 'inline'}}
+                                                                                        src='/jenny.jpeg' width='15'
+                                                                                        height='15'/>)</ReactFitty>
+                        </button>
+                    </Fragment>
+                )}
+            </div>
 
+            {/*has inventory*/}
+            <div className={classes.shopSection}>
+                Inventory: [{inventory.map((v) => `${v}, `)}]
             </div>
         </div>
     )
-        ;
 }

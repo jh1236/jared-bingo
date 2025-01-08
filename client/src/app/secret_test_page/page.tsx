@@ -83,19 +83,19 @@ export default function TestPage() {
             }}>
                 <button
                     className={classes.shopButton}
-                    onClick={() => addYapaneseJenForName(name!, 5).then((newAmount) => setYappaneseJen(newAmount))}>Get
-                    +5 cash
+                    onClick={() => addYapaneseJenForName(name!, 5).then((newAmount) => setYappaneseJen(newAmount))}>
+                    Get +5 cash
                 </button>
                 {shopItems.map((item, index) =>
                     <Fragment key={index}>
                         <br></br>
-                    <button  onClick={() =>
-                        purchase(item.name)
-                    } className={classes.shopButton}>
-                        <ReactFitty wrapText>{item.formattedName}  ({item.cost} <img style={{display: 'inline'}}
-                                                                                     src='/jenny.jpeg' width='15'
-                                                                                     height='15'/>)</ReactFitty>
-                    </button>
+                        <button onClick={() =>
+                            purchase(item.name)
+                        } className={classes.shopButton}>
+                            <ReactFitty wrapText>{item.formattedName} ({item.cost} <img style={{display: 'inline'}}
+                                                                                        src='/jenny.jpeg' width='15'
+                                                                                        height='15'/>)</ReactFitty>
+                        </button>
                     </Fragment>
                 )}
             </div>
