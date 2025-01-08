@@ -4,5 +4,11 @@
         "formattedName": "Khalia's best friend",
         "cost": 4,
         "image": "/honse"
+    },
+    {
+        "name":"front_seat",
+        "formattedName": "Claim the front seat",
+        "cost": 20,
+        "image": "/front_seat.jpg"
     }
 ]

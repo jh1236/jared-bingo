@@ -96,7 +96,7 @@ def use_item():
 @app.get('/api/inventory')
 def get_inventory():
     name = request.args.get('name').lower()
-    return {"inventory": database[name]["inventory"]}
+    return {"inventory": [next(j for j in items if j["name"] == i) for i in database[name]["inventory"]]}
 
 @app.get('/api/purchasable')
 def get_purchases():
