@@ -47,7 +47,7 @@ export function getBoardForName(name: string): Promise<{ board: number, state: b
     }))
 }
 
-export function getInventoryForName(name: string): Promise<string[]> {
+export function getInventoryForName(name: string): Promise<{ formattedName: string; name: string, cost: number, image: string }[]> {
     return fetch(`${site}/inventory?name=${name}`, {
         method: "GET",
     }).then((response: Response) => response.json().then((data: any) => {

@@ -19,7 +19,12 @@ export default function TestPage() {
         cost: number,
         image: string
     }[]>([]);
-    const [inventory, setInventory] = React.useState<string[]>([]);
+    const [inventory, setInventory] = React.useState<{
+        formattedName: string;
+        name: string,
+        cost: number,
+        image: string
+    }[]>([]);
     const name: string | null = localStorage.getItem('name')
     useEffect(() => {
         if (name) {
@@ -95,17 +100,23 @@ export default function TestPage() {
                         <button onClick={() =>
                             purchase(item.name)
                         } className={classes.shopButton}>
-                            <ReactFitty wrapText>{item.formattedName} ({item.cost} <img style={{display: 'inline'}}
-                                                                                        src='/jenny.jpeg' width='15'
-                                                                                        height='15'/>)</ReactFitty>
+                            <ReactFitty wrapText>
+                                <img style={{display: 'inline', width: '25px', height: '50px'}}
+                                     src={item.image}/>
+                                {item.formattedName}
+                                ({item.cost}
+                                <img style={{display: 'inline'}}
+                                     src='/jenny.jpeg' width='15'
+                                     height='15'/>)
+                            </ReactFitty>
                         </button>
                     </Fragment>
                 )}
             </div>
 
-            {/*has inventory*/}
+            {/*inventory*/}
             <div className={classes.shopSection}>
-                Inventory: [{inventory.map((v) => `${v}, `)}]
+                Inventory: [{inventory.map((v) => `${v.name}, `)}]
             </div>
         </div>
     )
