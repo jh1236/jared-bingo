@@ -89,11 +89,7 @@ export default function TestPage() {
 
             {/*opens the shop section*/}
             <div className={classes.shopSection}>
-                <button
-                    className={classes.shopButton}
-                    onClick={() => addYapaneseJenForName(name!, 5).then((newAmount) => setYappaneseJen(newAmount))}>
-                    Get +5 cash
-                </button>
+
                 {shopItems.map((item, index) =>
                     <Fragment key={index}>
                         <br></br>
