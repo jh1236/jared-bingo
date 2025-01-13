@@ -21,6 +21,6 @@
         "name":"windows",
         "formattedName": "Put the windows down/up",
         "cost": 5,
-        "image": "/queue.jpg"
+        "image": "/windows.jpg"
     }
 ]
