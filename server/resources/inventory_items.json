@@ -14,13 +14,13 @@
     {
         "name":"song",
         "formattedName": "Queue a song",
-        "cost": 10,
+        "cost": 15,
         "image": "/queue.jpg"
     },
     {
         "name":"windows",
         "formattedName": "Put the windows down/up",
-        "cost": 5,
+        "cost": 10,
         "image": "/windows.jpg"
     }
 ]

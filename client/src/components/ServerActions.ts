@@ -18,6 +18,10 @@ function intToState(state: number) {
 }
 
 
+export type inventory = { [key: string]: number };
+export type purchasableItem = { formattedName: string; name: string, cost: number, image: string };
+
+
 export function getYapaneseJenForName(name: string): Promise<number> {
     return fetch(`${site}/score?name=${name}`, {
         method: "GET",
@@ -47,7 +51,7 @@ export function getBoardForName(name: string): Promise<{ board: number, state: b
     }))
 }
 
-export function getInventoryForName(name: string): Promise<{ formattedName: string; name: string, cost: number, image: string }[]> {
+export function getInventoryForName(name: string): Promise<inventory> {
     return fetch(`${site}/inventory?name=${name}`, {
         method: "GET",
     }).then((response: Response) => response.json().then((data: any) => {
@@ -55,7 +59,7 @@ export function getInventoryForName(name: string): Promise<{ formattedName: stri
     }))
 }
 
-export function getPurchasableItems(): Promise<{ formattedName: string; name: string, cost: number, image: string }[]> {
+export function getPurchasableItems(): Promise<purchasableItem[]> {
     return fetch(`${site}/purchasable`, {
         method: "GET",
     }).then((response: Response) => response.json().then((data: any) => {
@@ -65,7 +69,7 @@ export function getPurchasableItems(): Promise<{ formattedName: string; name: st
 
 export function purchaseItemForName(name: string, item: string): Promise<[{
     score: number,
-    inventory: { formattedName: string; name: string, cost: number, image: string }[]
+    inventory: inventory
 }, boolean]> {
     return fetch(`${site}/purchase`, {
         method: "POST",
@@ -80,7 +84,7 @@ export function purchaseItemForName(name: string, item: string): Promise<[{
     })
 }
 
-export function consumeItemForName(name: string, item: string): Promise<[string[], boolean]> {
+export function consumeItemForName(name: string, item: string): Promise<[inventory, boolean]> {
     return fetch(`${site}/use_item`, {
         method: "POST",
         body: JSON.stringify({name, item}),
@@ -89,7 +93,7 @@ export function consumeItemForName(name: string, item: string): Promise<[string[
         },
     }).then((response: Response) => {
         return response.json().then((out: any) => {
-            return [out, response.ok]
+            return [out.inventory, response.ok]
         })
     })
 }

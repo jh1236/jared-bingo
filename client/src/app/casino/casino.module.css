@@ -1,4 +1,54 @@
-.shopButton{
+.animated {
+    animation-name: casino;
+    animation-duration: 0.6s;
+    animation-timing-function: linear;
+    font-size: 40px;
+    opacity: 0;
+}
+
+.done {
+    animation-name: casinoEnd;
+    animation-duration: 0.6s;
+    animation-timing-function: linear;
+    font-size: 40px;
+    opacity: 1;
+}
+
+.hidden {
+    opacity: 0;
+}
+
+@keyframes casino {
+    0% {
+        transform: translateY(-120px) scale(75%);
+        opacity: 0;
+    }
+    50% {
+        transform: translateY(0px) scale(120%);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(150px) scale(75%);
+        opacity: 0;
+    }
+}
+
+@keyframes casinoEnd {
+    0% {
+        transform: translateY(-120px) scale(75%);
+        opacity: 0;
+    }
+    50% {
+        transform: translateY(0px) scale(120%);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0px) scale(100%);
+        opacity: 1;
+    }
+}
+
+.shopButton {
     background: #c85000;
     color: #fff;
     cursor: pointer;
@@ -16,7 +66,7 @@
 
 .rainbow {
     width: calc(50% - 15px);
-    height:60px;
+    height: 60px;
     text-align: center;
     text-decoration: underline;
     font-size: 32px;
@@ -47,21 +97,23 @@
     overflow: hidden;
     display: inline-block
 }
-.shopSection::after{
-    content:"";
-    position:absolute;
+
+.shopSection::after {
+    content: "";
+    position: absolute;
     z-index: -1;
     /*original uses 141% to approximate sqrt(2), but that only works with squares. idk how to find smallest possible rectangle that completely covers another, so instead the child is 1k*1kpx*/
-    width:10000px;
-    height:10000px;
-    left:50%;
-    top:50%;
+    width: 10000px;
+    height: 10000px;
+    left: 50%;
+    top: 50%;
     /*idk why the local image doesnt work lol*/
     background-image: url("https://www.freeiconspng.com/thumbs/cart-icon/basket-cart-icon-27.png");
     background-size: 75px;
     opacity: 0.5;
     transform: translate(-50%, -50%) rotate(45deg);
 }
+
 .invSection {
     position: relative;
     top: 0;
@@ -79,15 +131,16 @@
     overflow: hidden;
     display: inline-block
 }
-.invSection::after{
-    content:"";
-    position:absolute;
+
+.invSection::after {
+    content: "";
+    position: absolute;
     z-index: -1;
     /*original uses 141% to approximate sqrt(2), but that only works with squares. idk how to find smallest possible rectangle that completely covers another, so instead the child is 1k*1kpx*/
-    width:10000px;
-    height:10000px;
-    left:50%;
-    top:50%;
+    width: 10000px;
+    height: 10000px;
+    left: 50%;
+    top: 50%;
     /*idk why the local image doesnt work lol*/
     background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIiA6-m3K45Dm-0HYgUridiSYXLgIfbbOpoQ&s");
     background-size: 75px;

@@ -52,7 +52,8 @@
     "Jared complains about a speed limit",
     "Jared tries to get someone to turn their headlights on",
     "Jared sings the song before it comes in",
-    "Jared uses the horn"
+    "Jared uses the horn",
+    "Jared asks 'is that on the bingo card?'"
   ],
   "tasks": [
     "Spot a mobile camera/roo before Jared",
@@ -62,6 +63,8 @@
     "Make Jared laugh using the word '$random'",
     "Make anyone say the word '$random'",
     "Give Jared head in the back of the car",
-    "Execute Digby"
+    "Execute Digby",
+    "Put the car in neutral (announce this immediately)",
+    "Say the word '$random' without anyone pointing it out"
   ]
 }

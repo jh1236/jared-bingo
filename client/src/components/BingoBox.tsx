@@ -7,12 +7,7 @@ import dictionary from '../resources/dictionary_keys.json'
 import {addYapaneseJenForName, getBoardForName, setBoardForName, setStateForName} from "@/components/ServerActions";
 import {YapaneseJen} from "@/components/YapaneseJen";
 import {PopUp} from "@/components/PopUp";
-
-function fakeRandom(seed: number) {
-    //used so that we can have a seeded rng
-    const x = Math.sin(Math.floor(seed)) * 10000;
-    return x - Math.floor(x);
-}
+import {fakeRandom, getRandomWord} from "@/utils";
 
 function winCheck(state: boolean[]): boolean {
     state[12] = true
@@ -65,8 +60,7 @@ function generateBingo(seed: number,
         const idx = Math.floor(fakeRandom(seed + i) * tempOptions.length);
         let tempText = tempOptions[idx]
         if (tempText.includes("$random")) {
-            const idx2 = Math.floor(fakeRandom(seed + i + 123456) * dictionary.length);
-            tempText = tempText.replace("$random", dictionary[idx2])
+            tempText = tempText.replace("$random", getRandomWord(seed + 7 * i))
         }
         const isTaskIn = idx >= taskStart;
         if (!isTaskIn) {
