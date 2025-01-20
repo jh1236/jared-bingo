@@ -110,6 +110,37 @@ def purchase_items():
     }, 200
 
 
+@app.post('/api/add_item')
+@locked
+def add_items():
+    database = load_database()
+    items = load_items()
+    name = request.json['name'].lower()
+    database[name]["inventory"].append(request.json['item'])
+    write_to_db(database)
+    return {
+        "inventory": {i["name"]: database[name]["inventory"].count(i["name"]) for i in items},
+    }, 200
+
+
+@app.post('/api/spend')
+@locked
+def spend_moola():
+    database = load_database()
+    name = request.json['name'].lower()
+    amount = request.json['score']
+    score = database[name]["score"]
+    if score < amount:
+        return {
+            "score": database[name]["score"]
+        }, 400
+    database[name]["score"] -= amount
+    write_to_db(database)
+    return {
+        "score": database[name]["score"]
+    }, 200
+
+
 @app.post('/api/use_item')
 @locked
 def use_item():

@@ -15,6 +15,7 @@ import {ReactFitty} from "react-fitty";
 import Image from "next/image";
 import {PopUp} from "@/components/PopUp";
 import {Button} from "@headlessui/react";
+import {it} from "node:test";
 
 
 type popupDetails = {
@@ -122,32 +123,34 @@ export default function TestPage() {
             {/*opens the shop section*/}
             <div className={classes.shopSection}>
 
-                {shopItems.map((item, index) =>
-                    <Fragment key={index}>
-                        <br></br>
-                        <button onClick={() =>
-                            purchase(item.name)
-                        } className={classes.shopButton}
-                                style={{backgroundColor: item.cost <= yappaneseJen ? '#c85000' : 'gray'}}>
-                            <ReactFitty wrapText>
-                                <img style={{
-                                    display: 'inline',
-                                    width: '25px',
-                                    height: '50px',
-                                }}
-                                     src={item.image}/>
-                                {item.cost <= yappaneseJen ?
-                                    <>{item.formattedName} ({item.cost}<img style={{display: 'inline'}}
-                                                                            src='/jenny.jpeg' width='15'
-                                                                            height='15'/>)</> :
-                                    <s>{item.formattedName} ({item.cost}<img style={{display: 'inline'}}
-                                                                             src='/jenny.jpeg' width='15'
-                                                                             height='15'/>)</s>
-                                }
+                {shopItems.map((item, index) => {
+                        if (item.cost < 0) return null
+                        return <Fragment key={index}>
+                            <br></br>
+                            <button onClick={() =>
+                                purchase(item.name)
+                            } className={classes.shopButton}
+                                    style={{backgroundColor: item.cost <= yappaneseJen ? '#c85000' : 'gray'}}>
+                                <ReactFitty wrapText>
+                                    <img style={{
+                                        display: 'inline',
+                                        width: '25px',
+                                        height: '50px',
+                                    }}
+                                         src={item.image}/>
+                                    {item.cost <= yappaneseJen ?
+                                        <>{item.formattedName} ({item.cost}<img style={{display: 'inline'}}
+                                                                                src='/jenny.jpeg' width='15'
+                                                                                height='15'/>)</> :
+                                        <s>{item.formattedName} ({item.cost}<img style={{display: 'inline'}}
+                                                                                 src='/jenny.jpeg' width='15'
+                                                                                 height='15'/>)</s>
+                                    }
 
-                            </ReactFitty>
-                        </button>
-                    </Fragment>
+                                </ReactFitty>
+                            </button>
+                        </Fragment>
+                    }
                 )}
             </div>
 

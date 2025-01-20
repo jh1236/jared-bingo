@@ -84,6 +84,36 @@ export function purchaseItemForName(name: string, item: string): Promise<[{
     })
 }
 
+export function addItemForName(name: string, item: string): Promise<
+    inventory
+> {
+    return fetch(`${site}/add_item`, {
+        method: "POST",
+        body: JSON.stringify({name, item}),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    }).then((response: Response) => {
+        return response.json().then((out: any) => {
+            return out.inventory
+        })
+    })
+}
+
+export function SpendJenniesForName(name: string, price: number): Promise<[number, boolean]> {
+    return fetch(`${site}/spend`, {
+        method: "POST",
+        body: JSON.stringify({name, score: price}),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    }).then((response: Response) => {
+        return response.json().then((out: any) => {
+            return [out.score, response.ok]
+        })
+    })
+}
+
 export function consumeItemForName(name: string, item: string): Promise<[inventory, boolean]> {
     return fetch(`${site}/use_item`, {
         method: "POST",

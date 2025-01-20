@@ -22,5 +22,11 @@
         "formattedName": "Put the windows down/up",
         "cost": 10,
         "image": "/windows.jpg"
+    },
+    {
+        "name":"maccas",
+        "formattedName": "Jared shouts you a drink from maccas",
+        "cost": -1,
+        "image": "/coffee_frappe.jpg"
     }
 ]

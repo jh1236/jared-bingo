@@ -66,8 +66,16 @@ export function YapaneseJen({yapaneseJen, setYapaneseJen, regenBoard}: YapaneseJ
         <br></br>
         <Link href='/shop'>
             <button
+        className={classes.button}
+        >To Shop
+            </button>
+        </Link>
+        <br></br>
+        <br></br>
+        <Link href='/casino'>
+            <button
                 className={classes.button}
-            >To Shop
+            >To The Cas!!
             </button>
         </Link>
     </div>;
