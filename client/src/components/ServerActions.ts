@@ -1,4 +1,4 @@
-const site = `http://flun.in:5000/api`;
+const site = `https://api.flun.in/`;
 
 function stateToInt(state: boolean[]) {
     let out = 0;

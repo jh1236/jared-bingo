@@ -3,7 +3,6 @@
 import React, {useEffect} from "react";
 import {BingoSquare} from "@/components/BingoSquare";
 import data from '../resources/squares.json'
-import dictionary from '../resources/dictionary_keys.json'
 import {addYapaneseJenForName, getBoardForName, setBoardForName, setStateForName} from "@/components/ServerActions";
 import {YapaneseJen} from "@/components/YapaneseJen";
 import {PopUp} from "@/components/PopUp";
@@ -61,6 +60,9 @@ function generateBingo(seed: number,
         let tempText = tempOptions[idx]
         if (tempText.includes("$random")) {
             tempText = tempText.replace("$random", getRandomWord(seed + 7 * i))
+        }
+        if (tempText.includes("$number")) {
+            tempText = tempText.replace("$number", '' + Math.floor(fakeRandom(seed + 7 * i) * 100))
         }
         const isTaskIn = idx >= taskStart;
         if (!isTaskIn) {
