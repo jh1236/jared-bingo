@@ -20,8 +20,8 @@ export function getRandomWord(seed?: number) {
 
 
 //https://overreacted.io/making-setinterval-declarative-with-react-hooks/
-export function useIntervalMagic(callback, delay) {
-    const savedCallback = useRef();
+export function useIntervalMagic(callback: () => void, delay: number | null) {
+    const savedCallback = useRef<(() => void) | null>(null);
 
     // Remember the latest callback.
     useEffect(() => {
@@ -31,10 +31,10 @@ export function useIntervalMagic(callback, delay) {
     // Set up the interval.
     useEffect(() => {
         function tick() {
-            savedCallback.current();
+            savedCallback.current!();
         }
         if (delay !== null) {
-            let id = setInterval(tick, delay);
+            const id = setInterval(tick, delay);
             return () => clearInterval(id);
         }
     }, [delay]);

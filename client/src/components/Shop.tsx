@@ -1,6 +1,6 @@
 'use client'
 
-import React, {Fragment, JSX, useEffect} from "react";
+import React, {Fragment, JSX, useEffect, useState} from "react";
 import {
     consumeItemForName,
     getInventoryForName,
@@ -12,6 +12,7 @@ import {
 } from "@/components/ServerActions";
 import Link from "next/link";
 import classes from "./shop.module.css";
+// @ts-expect-error description
 import {ReactFitty} from "react-fitty";
 import Image from "next/image";
 import {PopUp} from "@/components/PopUp";
@@ -36,17 +37,26 @@ export function Shop() {
         description: "",
         title: ""
     });
-    const name: string | null = localStorage.getItem('name')
+    const [name, setName] = useState<string | null>(null);
+    useEffect(() => {
+        const tempName = localStorage.getItem("name");
+        setName(tempName);
+        if (tempName) {
+            getYapaneseJenForName(tempName).then(setYappaneseJen)
+            getInventoryForName(tempName).then(setInventory)
+            getPurchasableItems().then(setShopItems)
+        } else {
+            location.href = "/"
+        }
+    }, []);
     useEffect(() => {
         if (name) {
-            getYapaneseJenForName(name).then(setYappaneseJen)
-            getInventoryForName(name).then(setInventory)
-            getPurchasableItems().then(setShopItems)
+
         }
     }, [name])
+
     if (!name) {
-        location.href = "/"
-        return <></>
+        return <>loading</>
     }
 
     function purchase(type: string) {

@@ -1,4 +1,4 @@
-const site = `https://api.flun.in/`;
+const site = 'https://api.jh1236.top';
 
 function stateToInt(state: boolean[]) {
     let out = 0;
@@ -23,46 +23,46 @@ export type purchasableItem = { formattedName: string; name: string, cost: numbe
 
 
 export function getYapaneseJenForName(name: string): Promise<number> {
-    return fetch(`${site}/score?name=${name}`, {
+    return fetch(`${site}/api/score?name=${name}`, {
         method: "GET",
-    }).then((response: Response) => response.json()).then((data: any) => {
+    }).then((response: Response) => response.json()).then((data) => {
         return data.score;
     })
 }
 
 export function addYapaneseJenForName(name: string, score: number): Promise<number> {
-    return fetch(`${site}/score`, {
+    return fetch(`${site}/api/score`, {
         method: "POST",
         body: JSON.stringify({name: name, score: score}),
         headers: {
             "Content-Type": "application/json",
         },
-    }).then((response: Response) => response.json()).then((data: any) => {
+    }).then((response: Response) => response.json()).then((data) => {
         return data.score;
     });
 }
 
 export function getBoardForName(name: string): Promise<{ board: number, state: boolean[] }> {
-    return fetch(`${site}/board?name=${name}`, {
+    return fetch(`${site}/api/board?name=${name}`, {
         method: "GET",
-    }).then((response: Response) => response.json().then((data: any) => {
+    }).then((response: Response) => response.json().then((data) => {
         data.state = intToState(data.state);
         return data;
     }))
 }
 
 export function getInventoryForName(name: string): Promise<inventory> {
-    return fetch(`${site}/inventory?name=${name}`, {
+    return fetch(`${site}/api/inventory?name=${name}`, {
         method: "GET",
-    }).then((response: Response) => response.json().then((data: any) => {
+    }).then((response: Response) => response.json().then((data) => {
         return data.inventory;
     }))
 }
 
 export function getPurchasableItems(): Promise<purchasableItem[]> {
-    return fetch(`${site}/purchasable`, {
+    return fetch(`${site}/api/purchasable`, {
         method: "GET",
-    }).then((response: Response) => response.json().then((data: any) => {
+    }).then((response: Response) => response.json().then((data) => {
         return data.items;
     }))
 }
@@ -71,14 +71,14 @@ export function purchaseItemForName(name: string, item: string): Promise<[{
     score: number,
     inventory: inventory
 }, boolean]> {
-    return fetch(`${site}/purchase`, {
+    return fetch(`${site}/api/purchase`, {
         method: "POST",
         body: JSON.stringify({name, item}),
         headers: {
             "Content-Type": "application/json",
         },
     }).then((response: Response) => {
-        return response.json().then((out: any) => {
+        return response.json().then((out) => {
             return [out, response.ok]
         })
     })
@@ -87,49 +87,49 @@ export function purchaseItemForName(name: string, item: string): Promise<[{
 export function addItemForName(name: string, item: string): Promise<
     inventory
 > {
-    return fetch(`${site}/add_item`, {
+    return fetch(`${site}/api/add_item`, {
         method: "POST",
         body: JSON.stringify({name, item}),
         headers: {
             "Content-Type": "application/json",
         },
     }).then((response: Response) => {
-        return response.json().then((out: any) => {
+        return response.json().then((out) => {
             return out.inventory
         })
     })
 }
 
-export function SpendJenniesForName(name: string, price: number): Promise<[number, boolean]> {
-    return fetch(`${site}/spend`, {
+export function spendJenniesForName(name: string, price: number): Promise<[number, boolean]> {
+    return fetch(`${site}/api/spend`, {
         method: "POST",
         body: JSON.stringify({name, score: price}),
         headers: {
             "Content-Type": "application/json",
         },
     }).then((response: Response) => {
-        return response.json().then((out: any) => {
+        return response.json().then((out) => {
             return [out.score, response.ok]
         })
     })
 }
 
 export function consumeItemForName(name: string, item: string): Promise<[inventory, boolean]> {
-    return fetch(`${site}/use_item`, {
+    return fetch(`${site}/api/use_item`, {
         method: "POST",
         body: JSON.stringify({name, item}),
         headers: {
             "Content-Type": "application/json",
         },
     }).then((response: Response) => {
-        return response.json().then((out: any) => {
+        return response.json().then((out) => {
             return [out.inventory, response.ok]
         })
     })
 }
 
 export function setBoardForName(name: string, board: number): Promise<Response> {
-    return fetch(`${site}/board`, {
+    return fetch(`${site}/api/board`, {
         method: "POST",
         body: JSON.stringify({name: name, board: board}),
         headers: {
@@ -139,7 +139,7 @@ export function setBoardForName(name: string, board: number): Promise<Response> 
 }
 
 export function setStateForName(name: string, state: boolean[]): Promise<Response> {
-    return fetch(`${site}/state`, {
+    return fetch(`${site}/api/state`, {
         method: "POST",
         body: JSON.stringify({name: name, state: stateToInt(state)}),
         headers: {

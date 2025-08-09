@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {BingoSquare} from "@/components/BingoSquare";
 import data from '../resources/squares.json'
 import {addYapaneseJenForName, getBoardForName, setBoardForName, setStateForName} from "@/components/ServerActions";
@@ -77,14 +77,12 @@ function generateBingo(seed: number,
 }
 
 
-interface BingoBoxProps {
-}
-
-function generateNewBingo(setSeed: (state: number) => void,
+function generateNewBingo(name: string,
+                          setSeed: (state: number) => void,
                           setState: (state: boolean[]) => void,
                           setText: (state: string[]) => void,
                           setIsTask: (isTask: boolean[]) => void) {
-    const name = localStorage.getItem("name");
+
     const newSeed = Math.random() * 123456789
     const init = Array(25).fill(false)
     init[12] = true
@@ -95,13 +93,16 @@ function generateNewBingo(setSeed: (state: number) => void,
     generateBingo(newSeed, setText, setIsTask);
 }
 
-export function BingoBox({}: BingoBoxProps) {
+export function BingoBox() {
     const [yapaneseJen, setYapaneseJen] = React.useState<number>(0);
     const [isOpen, setIsOpen] = React.useState(false)
     const init = Array(25).fill(false)
     init[12] = true
     const [state, setState] = React.useState<boolean[]>(init);
-    const name = localStorage.getItem("name");
+    const [name, setName] = useState<string | null>(null);
+    useEffect(() => {
+        setName(localStorage.getItem("name"));
+    }, []);
     const [seed, setSeed] = React.useState<number>(0);
     const [isTask, setIsTask] = React.useState<boolean[]>(Array(25).fill(false));
     const [text, setText] = React.useState<string[]>(Array(25).fill(""));
@@ -112,7 +113,7 @@ export function BingoBox({}: BingoBoxProps) {
                     setSeed(b.board)
                     generateBingo(b.board, setText, setIsTask);
                 } else if (seed === 0) {
-                    generateNewBingo(setSeed, setState, setText, setIsTask)
+                    generateNewBingo(name, setSeed, setState, setText, setIsTask)
                 }
                 if (b.state) setState(b.state);
             })
@@ -122,7 +123,7 @@ export function BingoBox({}: BingoBoxProps) {
             text[22] = "⬇️"
             setText(text)
         }
-    }, []);
+    }, [name]);
     useEffect(() => {
         if (winCheck(state)) {
             setIsOpen(true);
@@ -148,7 +149,7 @@ export function BingoBox({}: BingoBoxProps) {
         </div>
         <div style={{height: "20%"}}>
             <YapaneseJen yapaneseJen={yapaneseJen} setYapaneseJen={setYapaneseJen}
-                         regenBoard={() => generateNewBingo(setSeed, setState, setText, setIsTask)}></YapaneseJen>
+                         regenBoard={() => generateNewBingo(name!, setSeed, setState, setText, setIsTask)}></YapaneseJen>
         </div>
         <PopUp isOpen={isOpen} setIsOpen={setIsOpen} title='YIPE!!!!'
                description='You have completed a bingo!!'

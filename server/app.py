@@ -12,11 +12,6 @@ app = Flask(__name__)
 CORS(app)
 
 
-def write_to_db(database):
-    with open(f"./resources/{DATABASE_FILENAME}", 'w+') as f:
-        json.dump(database, f, indent=4)
-
-
 def locked(func):
     def inner(*args, **kwargs):
         with db_lock:
@@ -26,6 +21,12 @@ def locked(func):
     return inner
 
 
+@locked
+def write_to_db(database):
+    with open(f"./resources/{DATABASE_FILENAME}", 'w+') as f:
+        json.dump(database, f, indent=4)
+
+@locked
 def load_database():
     db = defaultdict(lambda: {"score": 0, "board": None, "state": None, "inventory": []})
     with open(f"./resources/{DATABASE_FILENAME}", 'r') as f:
@@ -46,7 +47,6 @@ def get_score():  # put application's code here
 
 
 @app.post('/api/score')
-@locked
 def add_to_score():
     name = request.json['name'].lower()
     score = request.json['score']
@@ -65,7 +65,6 @@ def get_board():
 
 
 @app.post('/api/board')
-@locked
 def set_board():
     print(request.json)
     database = load_database()
@@ -77,7 +76,6 @@ def set_board():
 
 
 @app.post('/api/state')
-@locked
 def set_state():
     database = load_database()
     name = request.json['name'].lower()
@@ -88,7 +86,6 @@ def set_state():
 
 
 @app.post('/api/purchase')
-@locked
 def purchase_items():
     database = load_database()
     items = load_items()
@@ -111,7 +108,6 @@ def purchase_items():
 
 
 @app.post('/api/add_item')
-@locked
 def add_items():
     database = load_database()
     items = load_items()
@@ -124,7 +120,6 @@ def add_items():
 
 
 @app.post('/api/spend')
-@locked
 def spend_moola():
     database = load_database()
     name = request.json['name'].lower()
@@ -142,7 +137,6 @@ def spend_moola():
 
 
 @app.post('/api/use_item')
-@locked
 def use_item():
     database = load_database()
     items = load_items()
@@ -170,4 +164,4 @@ def get_purchases():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0", port=5002)

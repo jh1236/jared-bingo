@@ -13,7 +13,10 @@ interface YapaneseJenProps {
 }
 
 export function YapaneseJen({yapaneseJen, setYapaneseJen, regenBoard}: YapaneseJenProps) {
-    const name = localStorage.getItem("name");
+    const [name, setName] = React.useState<string | null>("");
+    useEffect(() => {
+        setName(localStorage.getItem("name"));
+    }, []);
     const ref = React.useRef<HTMLInputElement | null>(null);
     useEffect(() => {
         if (name) {
@@ -66,8 +69,8 @@ export function YapaneseJen({yapaneseJen, setYapaneseJen, regenBoard}: YapaneseJ
         <br></br>
         <Link href='/shop'>
             <button
-        className={classes.button}
-        >To Shop
+                className={classes.button}
+            >To Shop
             </button>
         </Link>
         <br></br>

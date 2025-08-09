@@ -4,9 +4,9 @@ import {
     addItemForName,
     addYapaneseJenForName,
     getYapaneseJenForName,
-    SpendJenniesForName
+    spendJenniesForName
 } from "@/components/ServerActions";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useIntervalMagic} from "@/utils";
 import classes from "./casino.module.css";
 import Image from "next/image";
@@ -112,22 +112,24 @@ export function Casino() {
     const [nearMiss, setNearMiss] = React.useState<boolean>(false)
     const [confetti, setConfetti] = React.useState<boolean>(false)
     const [counter, setCounter] = React.useState<number>(0)
-    const [winEmoji, setWinEmoji] = React.useState<string>(null)
-    const name: string | null = localStorage.getItem('name')
+    const [winEmoji, setWinEmoji] = React.useState<string | null>(null)
+    const [name, setName] = useState<string | null>(null);
     useEffect(() => {
-        if (name) {
-            getYapaneseJenForName(name).then(setYappaneseJen)
+        const tempName = localStorage.getItem("name");
+        setName(tempName);
+        if (tempName) {
+            getYapaneseJenForName(tempName).then(setYappaneseJen)
+        } else {
+            location.href = "/"
         }
-
-    }, [name])
+    }, []);
 
 
     useIntervalMagic(looped, spinning !== 0 ? 80 : null);
 
 
     if (!name) {
-        location.href = "/"
-        return <></>
+        return <>loading</>
     }
 
     function looped() {
@@ -195,7 +197,7 @@ export function Casino() {
     }
 
 
-    const sum = Object.keys(emojis).filter(k => typeof (emojis[k].reward) === 'number').map(k => emojis[k].reward * emojis[k].odds * (k === '🎇' ? 1 : (1 - NEAR_MISS))).reduce((a, b) => a + b, 0)
+    const sum = Object.keys(emojis).filter(k => typeof (emojis[k].reward) === 'number').map(k => (emojis[k].reward as number) * emojis[k].odds * (k === '🎇' ? 1 : (1 - NEAR_MISS))).reduce((a, b) => a + b, 0)
     const count = Object.keys(emojis).map(k => emojis[k].odds).reduce((a, b) => a + b, 0);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -229,7 +231,8 @@ export function Casino() {
                     padding: '0px'
                 }}>
                     <p style={{position: "relative", top: "2px"}}>
-                        {yappaneseJen} <img style={{display: 'inline'}} src='/small_jenny.jpg' width='50'/>
+                        {yappaneseJen} <Image style={{display: 'inline'}} src='/small_jenny.jpg' width={50} height={50}
+                                              alt="an image"/>
                     </p>
                 </div>
 
@@ -356,7 +359,7 @@ export function Casino() {
                             setConfetti(false)
                             setNearMiss(false)
                         } else if (spinning === -1) {
-                            SpendJenniesForName(name, 1).then(([wealth, success]) => {
+                            spendJenniesForName(name!, 1).then(([wealth, success]) => {
                                 setYappaneseJen(wealth)
                                 if (success) {
                                     setSpinning(1)

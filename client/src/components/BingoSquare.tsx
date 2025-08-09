@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
+// @ts-expect-error 'require-types'
 import {ReactFitty} from "react-fitty";
 import {addYapaneseJenForName, setStateForName} from "@/components/ServerActions";
 import {PopUp} from "@/components/PopUp";
@@ -17,26 +18,31 @@ export function BingoSquare({index, setState, state, text, isTask, setYapaneseJe
     const isCentreSquare = index === 12;
     const [isOpen, setIsOpen] = React.useState(false);
     const clicked = isCentreSquare || state[index];
-    const name = localStorage.getItem("name");
-    const complete = (setOpen: (arg0: boolean) => void) => <button style={{border: 'solid 1px'}} key={index} onClick={() => {
-        const s = state.slice();
-        s[index] = !s[index];
-        setState(s);
-        setStateForName(name!, s)
-        setOpen(false)
-        let delta: number;
-        if (isTask) {
-            delta = s[index] ? 4 : -5;
-        } else {
-            delta = s[index] ? 2 : -3;
+    const [name, setName] = useState<string | null>(null);
+    useEffect(() => {
+        setName(localStorage.getItem("name"));
+    }, []);
+    const complete =
+        (setOpen: (arg0: boolean) => void) => <button style={{border: 'solid 1px'}} key={index} onClick={() => {
+            const s = state.slice();
+            s[index] = !s[index];
+            setState(s);
+            setStateForName(name!, s)
+            setOpen(false)
+            let delta: number;
+            if (isTask) {
+                delta = s[index] ? 4 : -5;
+            } else {
+                delta = s[index] ? 2 : -3;
+            }
+            addYapaneseJenForName(name!, delta).then((newAmount) => {
+                setYapaneseJen(newAmount)
+            });
         }
-        addYapaneseJenForName(name!, delta).then((newAmount) => {
-            setYapaneseJen(newAmount)
-        });
-    }
-    }>
-        Mark Square As {state[index] ? 'Incomplete' : 'Complete'} ({isTask ? (state[index] ? -5 : '+4') : (state[index] ? -3 : '+2')})
-    </button>
+        }>
+            Mark Square
+            As {state[index] ? 'Incomplete' : 'Complete'} ({isTask ? (state[index] ? -5 : '+4') : (state[index] ? -3 : '+2')})
+        </button>
     return <div style={{
         width: "20%",
         height: "20vmin",
