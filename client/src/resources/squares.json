@@ -56,7 +56,8 @@
     "Jared asks 'is that on the bingo card?'",
     "Jared goes $number km/h",
     "Spot roadworks",
-    "Comment on liking the song which Jared immediately skips"
+    "Comment on liking the song which Jared immediately skips",
+    "Jared calls you and asks if you want to hang"
   ],
   "tasks": [
     "Spot a mobile camera/roo before Jared",
@@ -68,6 +69,9 @@
     "Give Jared head in the back of the car",
     "Execute Digby",
     "Put the car in neutral (announce this immediately)",
-    "Say the word '$random' without anyone pointing it out"
+    "Say the word '$random' in a sentence without anyone pointing it out",
+    "Convince Jared to go to $road",
+    "Sing a song and have jared recognise (has to be at least 4 lines)",
+    "Give someone kiss"
   ]
 }

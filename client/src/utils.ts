@@ -1,4 +1,5 @@
 import dictionary from "@/resources/dictionary_keys.json";
+import roads from "@/resources/roads.json";
 import {useEffect, useRef} from "react";
 
 export function fakeRandom(seed: number) {
@@ -16,6 +17,16 @@ export function getRandomWord(seed?: number) {
     }
     const idx = Math.floor(seed * dictionary.length);
     return dictionary[idx]
+}
+
+export function getRandomRoad(seed?: number) {
+    if (!seed) {
+        seed = Math.random();
+    } else {
+        seed = fakeRandom(seed + 12345);
+    }
+    const idx = Math.floor(seed * roads.length);
+    return roads[idx]
 }
 
 
