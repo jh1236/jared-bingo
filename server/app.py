@@ -28,7 +28,7 @@ def write_to_db(database):
 
 @locked
 def load_database():
-    db = defaultdict(lambda: {"score": 0, "board": None, "state": None, "inventory": []})
+    db = defaultdict(lambda: {"score": 0, "board": None, "state": None, "inventory": [], "gambled_money":0 })
     with open(f"./resources/{DATABASE_FILENAME}", 'r') as f:
         loaded = json.load(f)
     db |= loaded
@@ -95,14 +95,15 @@ def purchase_items():
     item = next(i for i in items if i["name"] == to_purchase)
     if score < item["cost"]:
         return {
-            "inventory": {i["name"]: database[name]["inventory"].count(i["name"]) for i in items},
+            "inventory": {"inventory": {i["name"]: database[name]["inventory"].get(i["name"], 0) for i in items},},
             "score": database[name]["score"]
         }, 400
-    database[name]["inventory"].append(request.json['item'])
+    count = database[name]["inventory"].get(item["name"], 0)
+    database[name]["inventory"][item["name"]] = count + 1
     database[name]["score"] -= item["cost"]
     write_to_db(database)
     return {
-        "inventory": {i["name"]: database[name]["inventory"].count(i["name"]) for i in items},
+        "inventory":  {i["name"]: database[name]["inventory"].get(i["name"], 0) for i in items},
         "score": database[name]["score"]
     }, 200
 
@@ -115,12 +116,12 @@ def add_items():
     database[name]["inventory"].append(request.json['item'])
     write_to_db(database)
     return {
-        "inventory": {i["name"]: database[name]["inventory"].count(i["name"]) for i in items},
+        "inventory": {i["name"]: database[name]["inventory"].get(i["name"], 0) for i in items},
     }, 200
 
 
 @app.post('/api/spend')
-def spend_moola():
+def spend_moola(was_gambled: bool):
     database = load_database()
     name = request.json['name'].lower()
     amount = request.json['score']
@@ -129,6 +130,7 @@ def spend_moola():
         return {
             "score": database[name]["score"]
         }, 400
+    database[name]["gambled_money"] += was_gambled
     database[name]["score"] -= amount
     write_to_db(database)
     return {
@@ -142,11 +144,11 @@ def use_item():
     items = load_items()
     name = request.json['name'].lower()
     item = request.json['item']
-    if item not in database[name]["inventory"]:
-        return {"inventory": {i["name"]: database[name]["inventory"].count(i["name"]) for i in items}}, 400
+    if database[name]["inventory"].get(item, 0) <= 0:
+        return {"inventory": {i["name"]: database[name]["inventory"].get(i["name"], 0) for i in items},}, 400
     database[name]["inventory"].remove(item)
     write_to_db(database)
-    return {"inventory": {i["name"]: database[name]["inventory"].count(i["name"]) for i in items}}, 203
+    return {"inventory": {i["name"]: database[name]["inventory"].get(i["name"], 0) for i in items},}, 203
 
 
 @app.get('/api/inventory')
@@ -154,7 +156,7 @@ def get_inventory():
     database = load_database()
     items = load_items()
     name = request.args.get('name').lower()
-    return {"inventory": {i["name"]: database[name]["inventory"].count(i["name"]) for i in items}}
+    return {"inventory": {i["name"]: database[name]["inventory"].get(i["name"], 0) for i in items},}
 
 
 @app.get('/api/purchasable')
