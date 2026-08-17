@@ -1,0 +1,114 @@
+.shopButton{
+    background: #c85000;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    position: relative;
+    font-size: 20px;
+    width: 300px;
+    height: 50px;
+    border: 2px solid black;
+    margin: 2px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.rainbow {
+    width: calc(50% - 15px);
+    height:60px;
+    text-align: center;
+    text-decoration: underline;
+    font-size: 32px;
+    letter-spacing: 5px;
+    animation: colorRotate 6s linear 0s infinite;
+    background-color: #1c1c1c;
+    padding: 5px;
+    margin: 10px;
+    border-radius: 10px;
+    border: black 2px solid;
+    font-family: "Impact", serif;
+}
+
+.shopSection {
+    position: relative;
+    top: 0;
+    left: 0;
+    font-size: 20px;
+    align-items: center;
+    width: 85%;
+    text-align: center;
+    border: black 2px solid;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    margin-left: 7.5%;
+    margin-right: 7.5%;
+    z-index: 0;
+    overflow: hidden;
+    display: inline-block
+}
+.shopSection::after{
+    content:"";
+    position:absolute;
+    z-index: -1;
+    /*original uses 141% to approximate sqrt(2), but that only works with squares. idk how to find smallest possible rectangle that completely covers another, so instead the child is 1k*1kpx*/
+    width:10000px;
+    height:10000px;
+    left:50%;
+    top:50%;
+    /*idk why the local image doesnt work lol*/
+    background-image: url("https://www.freeiconspng.com/thumbs/cart-icon/basket-cart-icon-27.png");
+    background-size: 75px;
+    opacity: 0.5;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+.invSection {
+    position: relative;
+    top: 0;
+    left: 0;
+    font-size: 20px;
+    align-items: center;
+    width: 85%;
+    text-align: center;
+    border: black 2px solid;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-left: 7.5%;
+    margin-right: 7.5%;
+    z-index: 0;
+    overflow: hidden;
+    display: inline-block
+}
+.invSection::after{
+    content:"";
+    position:absolute;
+    z-index: -1;
+    /*original uses 141% to approximate sqrt(2), but that only works with squares. idk how to find smallest possible rectangle that completely covers another, so instead the child is 1k*1kpx*/
+    width:10000px;
+    height:10000px;
+    left:50%;
+    top:50%;
+    /*idk why the local image doesnt work lol*/
+    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIiA6-m3K45Dm-0HYgUridiSYXLgIfbbOpoQ&s");
+    background-size: 75px;
+    opacity: 0.5;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+@keyframes colorRotate {
+    from {
+        color: #6666ff;
+    }
+    10% {
+        color: #0099ff;
+    }
+    50% {
+        color: #00ff00;
+    }
+    75% {
+        color: #ff3399;
+    }
+    100% {
+        color: #6666ff;
+    }
+}

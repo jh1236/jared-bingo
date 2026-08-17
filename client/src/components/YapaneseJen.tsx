@@ -50,13 +50,11 @@ export function YapaneseJen({yapaneseJen, setYapaneseJen, regenBoard}: YapaneseJ
     return <div style={{
         alignItems: "center",
         width: '100%',
-        textAlign: "center"
+        textAlign: "center",
+        flexDirection: "column",
+        gap: 20
     }}>
-        <br></br>
-        <br></br>
         <p>My name is {name}. I have {yapaneseJen} Yappanese Jen!</p>
-        <br></br>
-        <br></br>
         <button
             className={classes.button}
             onClick={() => {
@@ -65,21 +63,26 @@ export function YapaneseJen({yapaneseJen, setYapaneseJen, regenBoard}: YapaneseJ
             }}
         >New Board {yapaneseJen > 0 ? '(-1)' : null}
         </button>
-        <br></br>
-        <br></br>
-        <Link href='/shop'>
-            <button
-                className={classes.button}
-            >To Shop
-            </button>
-        </Link>
-        <br></br>
-        <br></br>
-        <Link href='/casino'>
-            <button
-                className={classes.button}
-            >To The Cas!!
-            </button>
-        </Link>
+        <div style={{display: "flex", justifyContent: "space-around", width: "100%"}}>
+            <Link href='/shop'>
+                <button
+                    className={classes.button}
+                >To Shop
+                </button>
+            </Link>
+            <Link href='/casino'>
+                <button
+                    className={classes.button}
+                >To The Cas!!
+                </button>
+            </Link>
+            <Link href='/playground'>
+                <button
+                    className={classes.button}
+                >Rate a Playground
+                </button>
+            </Link>
+        </div>
+
     </div>;
 }
