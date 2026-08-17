@@ -6,7 +6,6 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 class Base(DeclarativeBase):
     pass
 
-
 class User(Base):
     __tablename__ = 'user'
 
@@ -15,6 +14,7 @@ class User(Base):
     board: Mapped[Optional[float]] = mapped_column(REAL)
     state: Mapped[Optional[int]] = mapped_column(Integer)
     gambled_money: Mapped[Optional[int]] = mapped_column(Integer)
+    score: Mapped[int] = mapped_column(Integer)
 
     items: Mapped[list['Items']] = relationship('Items', back_populates='player')
 
@@ -28,3 +28,5 @@ class Items(Base):
     count: Mapped[Optional[int]] = mapped_column(Integer)
 
     player: Mapped[Optional['User']] = relationship('User', back_populates='items')
+
+

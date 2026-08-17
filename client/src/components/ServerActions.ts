@@ -1,4 +1,4 @@
-const site = 'https://api.jh1236.top';
+const site = 'http://localhost:5002';
 
 function stateToInt(state: boolean[]) {
     let out = 0;
