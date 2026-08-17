@@ -2,7 +2,7 @@
   "basic": [
     "Jared goes 30km/h over the posted limit",
     "Jared rates number plate",
-    "Jared skips 5 songs in a row",
+    "Jared skips five (5) songs in a row",
     "Jared buys orange juice",
     "Jared buys a coffee frappe",
     "Jared queues Yuno Miles",
@@ -57,7 +57,18 @@
     "Jared goes $number km/h",
     "Spot roadworks",
     "Comment on liking the song which Jared immediately skips",
-    "Jared calls you and asks if you want to hang"
+    "Jared calls you and asks if you want to hang",
+    "Spot a Regional Licence Plate",
+    "Spot a Dog, Cat, Fox or Koala",
+    "Spot a Native Animal",
+    "Convince Jared to go to a playground",
+    "Spot a Custom Plate",
+    "Spot a Licence Plate which contains a word",
+    "Get child locked",
+    "Save Someone from being child locked",
+    "Be in the car when it is a Monday",
+    "Be in the car with at least two (2) other people",
+    "See a Nissan Juke"
   ],
   "tasks": [
     "Spot a mobile camera/roo before Jared",
@@ -71,7 +82,16 @@
     "Put the car in neutral (announce this immediately)",
     "Say the word '$random' in a sentence without anyone pointing it out",
     "Convince Jared to go to $road",
-    "Sing a song and have jared recognise (has to be at least 4 lines)",
-    "Give someone kiss"
+    "Sing a song and have jared recognise (has to be at least four [4] lines)",
+    "Give someone kiss",
+    "Start a political debate",
+    "Perform a Limerick about something that happened recently",
+    "Skype Monarch Horrocks",
+    "Correctly Answer Digby's Riddle (call him if not there)",
+    "Scream the entire alphabet"
+  ],
+  "challenges": [
+    "Go live on insta until five (5) people are watching",
+    "Send Jared five dollars ($5)"
   ]
 }

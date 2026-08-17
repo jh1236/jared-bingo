@@ -1,7 +1,7 @@
 'use client'
 
 import React, {useEffect, useState} from "react";
-import {BingoSquare} from "@/components/BingoSquare";
+import {BingoSquare, TaskType} from "@/components/BingoSquare";
 import data from '../resources/squares.json'
 import {addYapaneseJenForName, getBoardForName, setBoardForName, setStateForName} from "@/components/ServerActions";
 import {YapaneseJen} from "@/components/YapaneseJen";
@@ -28,10 +28,10 @@ function winCheck(state: boolean[]): boolean {
     return passedLeftDiag || passedRightDiag;
 }
 
-const options = data.basic.concat(data.tasks);
+const options = data.basic.concat(data.tasks).concat(data.challenges);
 
 
-function generateSquares(state: boolean[], setState: (state: boolean[]) => void, text: string[], isTask: boolean[], setYapaneseJen: (a: number) => void) {
+function generateSquares(state: boolean[], setState: (state: boolean[]) => void, text: string[], taskLevels: TaskType[], setYapaneseJen: (a: number) => void) {
     const squares = []
 
     for (let i = 0; i < 5; i++) {
@@ -39,7 +39,7 @@ function generateSquares(state: boolean[], setState: (state: boolean[]) => void,
         for (let j = 0; j < 5; j++) {
             const pos = i * 5 + j;
             next.push(<BingoSquare key={j} index={pos} state={state} setState={setState} text={text[pos]}
-                                   isTask={isTask[pos]} setYapaneseJen={setYapaneseJen}/>);
+                                   taskLevel={taskLevels[pos]} setYapaneseJen={setYapaneseJen}/>);
         }
         squares.push(next);
     }
@@ -49,12 +49,13 @@ function generateSquares(state: boolean[], setState: (state: boolean[]) => void,
 
 function generateBingo(seed: number,
                        setText: (state: string[]) => void,
-                       setIsTask: (isTask: boolean[]) => void
+                       setTaskLevel: (isTask: TaskType[]) => void
 ) {
     const text = Array(25).fill("")
     const isTask = Array(25).fill(false)
     const tempOptions = options.slice()
     let taskStart = data.basic.length;
+    let challengeStart = taskStart + data.tasks.length;
     for (let i = 0; i < 25; i++) {
         const idx = Math.floor(fakeRandom(seed + i) * tempOptions.length);
         let tempText = tempOptions[idx]
@@ -67,16 +68,24 @@ function generateBingo(seed: number,
         if (tempText.includes("$road")) {
             tempText = tempText.replace("$road", '' + getRandomRoad(seed + 7 * i))
         }
-        const isTaskIn = idx >= taskStart;
-        if (!isTaskIn) {
-            taskStart--;
+        let taskType = "basic"
+        if (idx >= challengeStart) {
+            taskType = "challenge"
+        } else {
+            challengeStart--;
+            if (idx >= taskStart) {
+                taskType = "task";
+            } else {
+                taskStart--;
+            }
         }
+
         tempOptions.splice(idx, 1)
-        isTask[i] = isTaskIn
+        isTask[i] = taskType
         text[i] = tempText
     }
     setText(text)
-    setIsTask(isTask)
+    setTaskLevel(isTask)
 }
 
 
@@ -84,7 +93,7 @@ function generateNewBingo(name: string,
                           setSeed: (state: number) => void,
                           setState: (state: boolean[]) => void,
                           setText: (state: string[]) => void,
-                          setIsTask: (isTask: boolean[]) => void) {
+                          setTaskLevel: (isTask: TaskType[]) => void) {
 
     const newSeed = Math.random() * 123456789
     const init = Array(25).fill(false)
@@ -93,7 +102,7 @@ function generateNewBingo(name: string,
     setBoardForName(name!, newSeed)
     setState(init)
     setStateForName(name!, init)
-    generateBingo(newSeed, setText, setIsTask);
+    generateBingo(newSeed, setText, setTaskLevel);
 }
 
 export function BingoBox() {
@@ -107,16 +116,16 @@ export function BingoBox() {
         setName(localStorage.getItem("name"));
     }, []);
     const [seed, setSeed] = React.useState<number>(0);
-    const [isTask, setIsTask] = React.useState<boolean[]>(Array(25).fill(false));
+    const [taskLevels, setTaskLevels] = React.useState<TaskType[]>(Array(25).fill(false));
     const [text, setText] = React.useState<string[]>(Array(25).fill(""));
     useEffect(() => {
         if (name) {
             getBoardForName(name).then((b) => {
                 if (b.board) {
                     setSeed(b.board)
-                    generateBingo(b.board, setText, setIsTask);
+                    generateBingo(b.board, setText, setTaskLevels);
                 } else if (seed === 0) {
-                    generateNewBingo(name, setSeed, setState, setText, setIsTask)
+                    generateNewBingo(name, setSeed, setState, setText, setTaskLevels)
                 }
                 if (b.state) setState(b.state);
             })
@@ -136,13 +145,13 @@ export function BingoBox() {
             const newSeed = Math.random() * 123456789
             setSeed(newSeed)
             setBoardForName(name!, newSeed)
-            generateBingo(newSeed, setText, setIsTask);
+            generateBingo(newSeed, setText, setTaskLevels);
             setState(init)
             setStateForName(name!, init)
         }
     }, [state]);
     init[12] = true
-    const squares = generateSquares(state, setState, text, isTask, setYapaneseJen)
+    const squares = generateSquares(state, setState, text, taskLevels, setYapaneseJen)
 
     return <>
         <div style={{height: '100vmin', maxHeight: "80vh"}}>
@@ -152,7 +161,7 @@ export function BingoBox() {
         </div>
         <div style={{height: "20%"}}>
             <YapaneseJen yapaneseJen={yapaneseJen} setYapaneseJen={setYapaneseJen}
-                         regenBoard={() => generateNewBingo(name!, setSeed, setState, setText, setIsTask)}></YapaneseJen>
+                         regenBoard={() => generateNewBingo(name!, setSeed, setState, setText, setTaskLevels)}></YapaneseJen>
         </div>
         <PopUp isOpen={isOpen} setIsOpen={setIsOpen} title='YIPE!!!!'
                description='You have completed a bingo!!'
