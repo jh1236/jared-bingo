@@ -6,7 +6,7 @@ import data from '../resources/squares.json'
 import {addYapaneseJenForName, getBoardForName, setBoardForName, setStateForName} from "@/components/ServerActions";
 import {YapaneseJen} from "@/components/YapaneseJen";
 import {PopUp} from "@/components/PopUp";
-import {fakeRandom, getRandomRoad, getRandomWord} from "@/utils";
+import {fakeRandom, getRandomPlayground, getRandomRoad, getRandomWord} from "@/utils";
 
 function winCheck(state: boolean[]): boolean {
     state[12] = true
@@ -67,6 +67,9 @@ function generateBingo(seed: number,
         }
         if (tempText.includes("$road")) {
             tempText = tempText.replace("$road", '' + getRandomRoad(seed + 7 * i))
+        }
+        if (tempText.includes("$playground")) {
+            tempText = tempText.replace("$playground", '' + getRandomPlayground(seed + 7 * i))
         }
         let taskType = "basic"
         if (idx >= challengeStart) {

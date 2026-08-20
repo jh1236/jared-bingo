@@ -1,5 +1,6 @@
 import dictionary from "@/resources/dictionary_keys.json";
 import roads from "@/resources/roads.json";
+import playgrounds from "@/resources/playgrounds.json";
 import {useEffect, useRef} from "react";
 
 export function fakeRandom(seed: number) {
@@ -29,6 +30,16 @@ export function getRandomRoad(seed?: number) {
     return roads[idx]
 }
 
+export function getRandomPlayground(seed?: number) {
+    if (!seed) {
+        seed = Math.random();
+    } else {
+        seed = fakeRandom(seed + 12345);
+    }
+    const idx = Math.floor(seed * playgrounds.length);
+    return playgrounds[idx]
+}
+
 
 //https://overreacted.io/making-setinterval-declarative-with-react-hooks/
 export function useIntervalMagic(callback: () => void, delay: number | null) {
@@ -44,6 +55,7 @@ export function useIntervalMagic(callback: () => void, delay: number | null) {
         function tick() {
             savedCallback.current!();
         }
+
         if (delay !== null) {
             const id = setInterval(tick, delay);
             return () => clearInterval(id);

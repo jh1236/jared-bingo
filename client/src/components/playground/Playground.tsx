@@ -1,10 +1,13 @@
 import Checkbox from "@mui/material/Checkbox";
 import Rating from "@mui/material/Rating";
-import TextField from "@mui/material/TextField";
 import Image from "next/image";
 import React, {Fragment, useEffect, useState} from "react";
 import Link from "next/link";
 import classes from "@/components/playground/playground.module.css";
+import Autocomplete from "@mui/material/Autocomplete";
+
+import playgrounds from "@/resources/playgrounds.json"
+import TextField from "@mui/material/TextField";
 
 const playgroundFields = {
     "playability": "Playability",
@@ -41,7 +44,8 @@ export function PlaygroundRater() {
             <form target="nothing" style={{display: "flex", flexDirection: "column", alignItems: "center", margin: 20}}
                   action="https://api.jh1236.top/api/playground" method="POST">
                 <input type="hidden" value={name!} name="name"/>
-                <TextField style={{backgroundColor: '#ffffff33'}} color="secondary"  margin="normal" label="Playground Name" name="playground" variant="filled"/>
+                <Autocomplete style={{backgroundColor: '#ffffff33'}} color="secondary" options={playgrounds.toSorted()}
+                              renderInput={(params) => <TextField {...params} label="Playground" style={{width:400}}/>}/>
                 {Object.entries(playgroundFields).map(([k, v]) => <Fragment key={k}><label style={{fontSize: '1.3em'}}
                                                                                            htmlFor={k}>{v}: </label>
                     <Rating
