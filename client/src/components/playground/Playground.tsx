@@ -5,7 +5,6 @@ import Image from "next/image";
 import React, {Fragment, useEffect, useState} from "react";
 import Link from "next/link";
 import classes from "@/components/playground/playground.module.css";
-import {getInventoryForName, getPurchasableItems, getYapaneseJenForName} from "@/components/ServerActions";
 
 const playgroundFields = {
     "playability": "Playability",
